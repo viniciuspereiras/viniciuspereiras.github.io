@@ -1,0 +1,653 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>UHCV32 - (Classificatória - Misc) Official Write-Up - CuteCat 🐈</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2fd4a9a9-c349-4f57-9b18-11b0b9b8703a" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/ownt.png"/></div><h1 class="page-title">UHCV32 - (Classificatória - Misc) Official Write-Up - CuteCat 🐈</h1><table class="properties"><tbody><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>vulns and exploitations</th><td><span class="selected-value select-value-color-brown">Program</span><span class="selected-value select-value-color-brown">Stego</span><span class="selected-value select-value-color-orange">loop</span><span class="selected-value select-value-color-pink">xxd</span><span class="selected-value select-value-color-orange">zip</span></td></tr></tbody></table></header><div class="page-body"><h3 id="80ab3b8e-b9ac-48a9-8d0f-e636856faa20" class="">Escrito por: Vinicius (big0us)<mark class="highlight-yellow"> </mark><mark class="highlight-teal"> </mark></h3><p id="a241a3bc-d28b-41fe-98c7-d0331ddb2a1a" class="">Tenho 16 anos, jogo CTF faz alguns meses e também participo do UHC aos finais de semanas. Esse challenge foi feito por mim e estará no meu perfil do github.</p><ul id="73b3b311-38f1-4950-8491-ee7735deb85f" class="toggle"><li><details open=""><summary>Perfis</summary><figure id="2875fcc2-dc6d-4f67-946d-4398b1fea8d1"><a href="https://github.com/viniciuspereiras/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">viniciuspereiras - Overview</div><div class="bookmark-description">as vezes &quot;big0us&quot; for fun :). viniciuspereiras has one repository available. Follow their code on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/viniciuspereiras/</div></div><img src="https://avatars2.githubusercontent.com/u/69733777?s=400&amp;u=0132e5e4a44d7bd0eb01176e2187618a1f7aa887&amp;v=4" class="bookmark-image"/></a></figure><figure id="9f88c84d-c18e-47d6-81fd-55d5c3c0d5bb"><a href="https://tryhackme.com/p/big0us" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">TryHackMe | big0us</div><div class="bookmark-description">TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!</div></div><div class="bookmark-href"><img src="https://assets.tryhackme.com/img/favicon.png" class="icon bookmark-icon"/>https://tryhackme.com/p/big0us</div></div><img src="https://tryhackme-images.s3.amazonaws.com/user-avatars/acbda194c8e42a3049fb6ffcbf6dc290.png" class="bookmark-image"/></a></figure><figure id="ebb79b8d-60ac-4698-ac02-531aef5e4528"><a href="https://www.hackthebox.eu/home/users/profile/406363" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Hack The Box :: Penetration Testing Labs</div><div class="bookmark-description">Login to the Hack The Box platform and take your pen-testing and cyber security skills to the next level!</div></div><div class="bookmark-href"><img src="https://www.hackthebox.eu/images/favicon.png" class="icon bookmark-icon"/>https://www.hackthebox.eu/home/users/profile/406363</div></div><img src="https://www.hackthebox.eu/images/favicon.png" class="bookmark-image"/></a></figure></details></li></ul><p id="75b07063-555a-41d7-8498-2d75e6f9b81c" class="">
+</p><p id="4e69a0e7-ae57-4aa3-90c2-32801ed180f9" class="">Esse challenge foi feito para ser fofo e maluco ao mesmo tempo...</p><h1 id="6d207949-bd2d-4be7-a7b2-b9406954c3e0" class="">Part 1</h1><p id="11956630-95a5-45f3-aa7f-80a126636f75" class="">Começamos o challenge com um .zip criptografado com senha:</p><figure id="23c6c204-4d6b-4b96-b540-1ded908c68c7" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled.png"><img style="width:384px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled.png"/></a></figure><p id="9ffdf051-baf7-42ba-a1a8-b8bbf77820ca" class="">Temos algumas opções para partir, ou rodar um bruteforce ou achar a senha.</p><p id="7fcbf914-82b5-43fa-812d-39c31d5fe0ba" class="">Testando algumas coisas na mão acabei conseguindo acertar, a senha é o número que está no nome do arquivo, no caso a senha do <a href="http://22800.zip">22800.zip</a> é 22800.</p><figure id="d7d91dbb-c8d6-484e-a4ec-6597599f55df" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%201.png"><img style="width:506px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%201.png"/></a></figure><p id="4be1de7e-fcaf-4920-8c20-c52121a59d7b" class="">Extraindo, temos mais um arquivo, o <a href="http://41992.zip">41992.zip</a>, testando o mesmo método conseguimos deszipar.</p><p id="f12bdeb7-4aa6-46dd-a968-8da6a6e786a6" class="">
+</p><figure id="0fa5744c-79a8-4f99-8b48-82c8dd89dc80" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%202.png"><img style="width:510px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%202.png"/></a></figure><p id="e4ae9cdd-841e-45b2-996f-546d5a768fb5" class="">Pelo jeito é um padrão que precisa ser quebrado, vamos desenvolver um script para pegar o nome do arquivo e fazer a extração em loop.</p><p id="f26edbbe-0183-4d13-b52e-fe0355c177d1" class="">Existem MUITAS formas diferentes de resolver essa primeira parte do challenge, eu usarei shell script para automatizar o processo.</p><pre id="e66b7feb-13c8-4b4d-9ab7-e20eabf7f889" class="code"><code>#!/bin/bash
+mkdir data                           
+echo &#x27;any key + enter to start:&#x27;     
+read key
+while true                          
+do
+	name=$(ls | grep .zip)            
+	name=${name%.zip}                 
+	echo &quot;Unziping: $name&quot;     
+	unzip -j -P $name $name.zip      
+	status=$(echo $?)                  
+	if [[ $status != 0 ]]              
+	then
+	echo &quot;Error extracting $name.zip&quot; 
+	exit                              
+	fi                                 
+	mv $name.zip ./data               
+done</code></pre><p id="8651ba42-979a-4a09-baf6-c608ec641a65" class="">Agora vou explicar o script, o que ele faz é em um loop dar um ls na pasta que só vai retornar no output os arquivos que terminarem com .zip, nesse output terá o nome do arquivo que precisamos e será salvo na variável name, então excluímos o &quot;.zip&quot; da nossa variável name e então extraímos o arquivo desse .zip e movemos o .zip de origem para a pasta &quot;data&quot;, assim não teremos problemas no &quot;ls&quot; (o if no meio do código verifica se a extração foi feita com sucesso, se não ele mostra qual .zip deu erro e encerra o programa deixando o script que deu erro na pasta raiz). Assim deve funcionar, vamos testar...</p><p id="90120879-ebba-4ba5-9ebb-9c00fb7c7eef" class="">
+</p><figure id="68314cb2-bace-4247-b818-8ba852964da2" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%203.png"><img style="width:432px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%203.png"/></a></figure><figure id="977da669-5526-4d9d-a519-f7a90d2b91a5" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%204.png"><img style="width:432px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%204.png"/></a></figure><h1 id="43ca2206-f546-4ee3-965b-f25534dec734" class="">Part 2</h1><p id="18a2d200-17e4-41b6-9091-4d32e73ede89" class="">Depois de um tempo ele terminou de extrair tudo mas deu erro no 46691.zip, e mostrou que dentro dele tem um arquivo chamado cutecat.jpg...</p><p id="e83781d0-62b2-459e-bc4d-9f65fabb146a" class="">Depois de tentar umas senhas e não conseguir vamos fazer um bruteforce.</p><p id="40d44595-0e63-4fb3-ab73-cd8076229b78" class="">Vou utilizar o john para isso.</p><figure id="158418a1-a6ac-4257-9a96-2c562eea7ce2" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%205.png"><img style="width:1058px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%205.png"/></a></figure><p id="18ec1dd7-b11a-40d6-b8a1-9b7c99c3d834" class="">Rapidinho conseguimos a senha, usando ela conseguimos extrair o cutecat.jpg</p><h1 id="8831c6db-e494-4501-8b85-7d5d6c978877" class="">Part 3</h1><p id="47c97429-3f23-4890-afde-a434b39849f0" class="">Aparentemente o arquivo está corrompido não conseguimos visualizar a imagem.</p><figure id="5ddd29b0-5c80-40fc-b9ef-554943c56b49" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%206.png"><img style="width:105px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%206.png"/></a></figure><figure id="8e513823-21d5-44f1-88b1-4eb315867709" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%207.png"><img style="width:483px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%207.png"/></a></figure><p id="46690c13-d855-4e4c-9e18-17714f81919c" class="">A principio parece que a assinatura do arquivo pode estar errada, por isso o &quot;file&quot; do Linux não conseguiu identificar o tipo do arquivo. Vamos extrair o hexadecimal da imagem para poder analisar.</p><figure id="f1edb60a-ad1f-4682-9336-d3d2a25be0af" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%208.png"><img style="width:692px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%208.png"/></a></figure><p id="490f6b7a-e1be-40d0-abd2-38ea981d9aa9" class="">
+</p><p id="142b880e-9e10-48ff-a0f8-280a90d75a7a" class="">Os primeiros bytes dos arquivos costumam ser conhecidos como magic-bytes, vamos ver como é a assinatura (signature ou magic-bytes) de um arquivo jpg.</p><figure id="2a2362dd-b8bb-495a-80a0-9fff17e41aeb"><a href="https://en.wikipedia.org/wiki/List_of_file_signatures" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">List of file signatures</div><div class="bookmark-description">Many file formats are not intended to be read as text. If such a file is accidentally viewed as a text file, its contents will be unintelligible. However, sometimes the file signature can be recognizable when interpreted as text.</div></div><div class="bookmark-href"><img src="https://en.wikipedia.org/static/favicon/wikipedia.ico" class="icon bookmark-icon"/>https://en.wikipedia.org/wiki/List_of_file_signatures</div></div></a></figure><p id="7d7f8131-1647-4161-b295-cfced3b8561d" class="">
+</p><figure id="e0c4a08a-b120-46c0-a7fd-1a2889fb9ae0" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%209.png"><img style="width:1101px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%209.png"/></a></figure><p id="359912f3-78e8-4d5d-8961-89a8231a7e1c" class="">Nossa imagem:</p><figure id="ee00d5b8-4f1d-4afe-b237-93ccf9bcbc49" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2010.png"><img style="width:336px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2010.png"/></a></figure><p id="0ef360e0-7008-4be2-970b-27bff088100b" class="">
+</p><p id="e1734d3f-0041-4d5f-b0c9-1783075d4d9d" class="">A partir do terceiro byte a assinatura esta correta, então só teremos que trocar os 00 por ff da nossa imagem</p><p id="6562ad20-89d4-460f-a6c0-336b184b017c" class="">Para isso também existem várias formas de fazer, vou usar um módulo do CyberChef para renderizar a imagem, chamado Render Image.</p><figure id="a34d2ca1-5a5e-48bd-b267-8f52854f3196"><a href="https://gchq.github.io/CyberChef/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">CyberChef</div><div class="bookmark-description">The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis</div></div><div class="bookmark-href"><img src="data:image/vnd.microsoft.icon;base64,AAABAAEAEA8AAAEAIAAkBAAAFgAAACgAAAAQAAAAHgAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATExMAAAAAAAAAAAAAAAAAAAAAAAAAAAAcHBwP5CQkE+Ojo5OiIiIS4aGhkt8fHxLe3t7S4GBgU6Hh4dWZWVlMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJaWlrvS0tL/0dHR/9HR0f/Pz8/+qamp/6ysrP+srKz/rKys/3h4eJIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACKioqix8fH/8bGxv/Gxsb/xcXF/pqamv+cnJz/nJyc/5ycnP9paWl/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsLCwyOjo6P/m5ub/5ubm/+Xl5f7Ly8v/zc3N/83Nzf/Ozs7/lZWVowAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALGxscfn5+f/5ubm/+bm5v/k5OT+ysrK/8zMzP/MzMz/zc3N/5KSkqIAAAAAYWFhDwAAAAAEBAQA////AAAAAACqqqrI5+fn/+bm5v/m5ub/5OTk/srKyv/MzMz/zMzM/83Nzf+wsLDcnp6eo6urq8pjY2MbAAAAAAAAAACVlZWm4uLi/+bm5v/m5ub/5ubm/+Tk5P7Kysr/zMzM/8zMzP/MzMz/zMzM/8zMzP+8vLz7bGxsLQAAAACioqJ+6Ojo/+bm5v7l5eX/5ubm/+bm5v/l5eX+ysrK/8zMzP/MzMz/zMzM/8zMzP/MzMz/t7e33Y2NjVxFRUULx8fHwubm5v/m5ub/5ubm/+bm5v/m5ub+5eXl/8rKyv7MzMz/zMzM/8zMzP/MzMz/zMzM/svLy//Hx8f/WlpaDcnJycnm5ub/5ubm/+bm5v/m5ub/5ubm/+Xl5f7Kysr/zMzM/8zMzP/MzMz/zMzM/8zMzP/Dw8P3oKCgxQAAAAG1tbWZ5+fn/+Xl5f7m5ub/5ubm/+bm5v/k5OT+ysrK/8zMzP/MzMz/y8vL/szMzP/Nzc3/tbW15UNDQxgAAAAAAAAAD76+vuLo6Oj/5ubm/+bm5v/m5ub/5OTk/srKyv/MzMz/zMzM/8zMzP/BwcH9tra2+L29vflpaWkuR0dHAAAAAAAAAAAAiYmJZKurq4uXl5d909PT7eXl5f/MzMz/x8fH/6qqqty9vb3/g4ODlQAAABFra2tAAAAAAAAAAAAbGxsAAAAAAAAAAAAAAAAAAAAAAG9vbyOTk5N5j4+PnHl5eVZCQkIVkpKSJmNjYxEAAAAAAAAAAAAAAAD//wAA//8AAOAHAADgDwAA4AcAAOAHAADgAQAAwAEAAMABAACAAAAAgAAAAIABAADAAQAA9AcAAP9/AAA=" class="icon bookmark-icon"/>https://gchq.github.io/CyberChef/</div></div><img src="https://gchq.github.io/CyberChef/images/fork_me.png" class="bookmark-image"/></a></figure><p id="8d0aabbe-69f0-4a61-813a-b6e66db05a3f" class="">
+</p><figure id="0e3848ea-4444-4804-a0e4-71bfeb61fc55" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2011.png"><img style="width:1123px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2011.png"/></a></figure><p id="fc2fc44c-f447-43d2-b9de-d5b9b7fb6ebe" class="">Selecionando o módulo Render Image usando o input format de Hex eu copiei todo o conteudo do extract que fizemos anteriormente e alterei os dois primeiros bytes que estavam errados para &quot;ff&quot; e apareceu um gatinho fofinho, ownt! </p><p id="59f4d8d4-16ad-4980-b84b-dd64e271535a" class="">Vamos baixar a imagem!</p><figure id="48a108db-b6c7-460a-85fd-2ea7ed782615" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2012.png"><img style="width:336px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2012.png"/></a></figure><p id="3649f0ed-71fa-4232-8fe8-6191d0b41e4a" class="">
+</p><figure id="03bd59bc-46c5-4b90-a138-201cb9b9704f" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2013.png"><img style="width:576px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2013.png"/></a></figure><p id="f0fa8fb8-8218-4d40-b9f8-852081d6e9ac" class="">Ownt!!!!!!!!!!!!!</p><p id="4227518d-8823-437a-8d2c-0417813a04d6" class="">Parece que temos uma senha, acredito que o único lugar que poderíamos usar essa senha seja se tiver esteganografia na imagem...</p><figure id="149808ef-23a6-4a1f-8391-f9b04109346b" class="image"><a href="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2014.png"><img style="width:597px" src="UHCV32%20-%20(Classificato%CC%81ria%20-%20Misc)%20Official%20Write-%202fd4a9a9c3494f579b1811b0b9b8703a/Untitled%2014.png"/></a></figure><p id="3a090972-ff7f-4247-8c43-7edf35d1cf70" class="">É isso, foi fofo né? 😸</p><p id="070b4cea-91ef-4001-b7eb-4c263327b0d8" class="">
+</p></div></article></body></html>
