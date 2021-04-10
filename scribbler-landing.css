@@ -8,6 +8,11 @@
 nav {
   background-color: var(--bg-color);
 }
+.center_writeups {
+  text-align: center;
+  background-color: var(--bg-color);
+  padding: 2rem 0 0.7rem 0;
+}
 
 /* hero section */
 .hero {
