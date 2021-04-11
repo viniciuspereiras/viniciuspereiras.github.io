@@ -1,0 +1,3 @@
+-add new writeup hub
+-put a s on walkthroughs in button
+-add copy discord func 
