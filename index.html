@@ -24,15 +24,6 @@ https://github.com/amiechen/codrops-scribbler -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   </head>
   <body>
-    <script>
-      function copyToClipboard(element) {
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val($(element).text()).select();
-    document.execCommand("copy");
-    $temp.remove();
-  }
-  </script>
     <nav>
       <div class="logo"></div>
       <ul class="menu">
@@ -51,9 +42,11 @@ https://github.com/amiechen/codrops-scribbler -->
         <li class="menu__item"><a href="#" class="link link--dark"><i class='fab fa-discord'></i></i></a></li>
         <li class="menu__item"><a href="mailto:pereirasviniciusp@gmail.com" class="link link--dark"><i class='fas fa-envelope'></i></i></a></li>
       </h1>
-          <pre class="nohighlight code">
-            <code class="">$  whoami</code>
-          </pre>
+            <pre class="nohighlight code">
+            <code class="tab__pane active mac">$  whoami</code>
+            <code class="tab__pane linux">$  whoami</code>
+            <code class="tab__pane win">$ whoami</code>
+            </pre>
       <h1 class="hero__title">Vinicius Pereira</h1>
     <p class="hero__description">Hi I'm vinicius and I'm studying web development and security information (hacking), sometimes I do some reports for bug bounties and Pentests :)</p>
     </div>
