@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+
+flag{1snt_4_cTf_g3t_out_h3r3!}
