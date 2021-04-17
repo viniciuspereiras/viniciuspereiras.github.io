@@ -183,3 +183,10 @@ nav {
     font-size: 0.8rem;
   }
 }
+
+
+.clipboard {
+  cursor: pointer;
+
+
+}
