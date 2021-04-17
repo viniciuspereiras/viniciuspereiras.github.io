@@ -16,14 +16,15 @@ https://github.com/amiechen/codrops-scribbler -->
     <link rel="author" href="humans.txt">
     <link rel="icon" href="https://www.pngkit.com/png/full/160-1609846_better-wall-e-wall-e-pixel-art.png" type="image/jpg">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  </head>
+	<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>  
+</head>
   <body>
     <nav>
       <div class="logo">
 	  </div>
       <ul class="menu">
         <div class="menu__item toggle"><span></span></div>
-        <li class="menu__item"><a href="#" class="link link--dark"><i class='fab fa-discord'></i>  big0us#9481</a></li>
+		<li class="menu__item"><a class="link link--dark clipboard" data-clipboard-text="big0us#9481"><i class='fab fa-discord'></i>  big0us#9481</a></li>
         <li class="menu__item"><a href="/" class="link link--dark"><i class='fas fa-home'></i>  Home</a></li>
         <li class="menu__item"><a href="https://linkedin.com/in/viniciuspereiras" target="_blank" class="link link--dark"><i class="fab fa-linkedin"></i>  Linkedin</a></li>
         <li class="menu__item"><a href="https://github.com/viniciuspereiras" target="_blank" class="link link--dark"><i class="fab fa-github"></i>  Github</a></li>
@@ -75,4 +76,20 @@ https://github.com/amiechen/codrops-scribbler -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
 		<script src="/scribbler.js"></script>
+		<script>
+			var clipboard = new ClipboardJS('.clipboard');
+	  
+			clipboard.on('success', function(e) {
+				console.info('Action:', e.action);
+				console.info('Text:', e.text);
+				console.info('Trigger:', e.trigger);
+	  
+				e.clearSelection();
+			});
+	  
+			clipboard.on('error', function(e) {
+				console.error('Action:', e.action);
+				console.error('Trigger:', e.trigger);
+			});
+		  </script>
 </body>
