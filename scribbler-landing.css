@@ -34,7 +34,7 @@ nav {
   width: 60%;
   margin: -11rem auto 3rem auto;
   text-align: left;
-  color: white;
+  color: var(--bg-color);
   padding: 0 1rem;
   border-radius: 4px;
   background-color: #232323;
