@@ -1,9 +1,12 @@
-title: big0us 
+title: big0us
 author: Vinicius Pereira
 email: vini@cius.xyz
 description: > # this means to ignore newlines until "show_exerpts:"
   Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF, I study programming (I'm focusing on python at the moment) and in my spare time I dedicate myself to creating some stuff, participating in bug bounty programs and playing some CTFs.
 show_excerpts: false # set to true to show excerpts on the homepage
+
+keep_history: true
+keep_files : [.git, CNAME, .gitignore]
 
 paginate: 5
 paginate_path: "/blog/page:num/"
