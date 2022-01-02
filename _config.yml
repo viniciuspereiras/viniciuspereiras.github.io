@@ -1,12 +1,12 @@
-title: Vinicius's Blog
+title: big0us
 author: Vinicius Pereira
 email: vini@cius.xyz
 description: > # this means to ignore newlines until "show_exerpts:"
-  Hey, my name is Vinicius, I work with the red team at PROOF, I study programming (I'm focusing on python at the moment) and in my spare time I dedicate myself to creating some stuff, participating in bug bounty programs and playing some CTFs.
+  Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF, I study programming (I'm focusing on python at the moment) and in my spare time I dedicate myself to creating some stuff, participating in bug bounty programs and playing some CTFs.
 show_excerpts: false # set to true to show excerpts on the homepage
 
-paginate: 1
-paginate_path: "/posts/page:num/"
+paginate: 5
+paginate_path: "/blog/page:num/"
 
 tag_permalink_style: pretty
 tag_page_layout: tag_page
@@ -20,7 +20,7 @@ dash:
 
   # (optional) discqus comment configuration
   # disqus:
-  #   shortname: bitbrain-github-io
+  #   shortname: bigous
 
   # generate social links in footer
   # supported colors: green, red, orange, blue, cyan, pink, teal, yellow, indigo, purple
@@ -33,7 +33,7 @@ dash:
       color: blue
     - url: https://github.com/viniciuspereiras
       icon: github-square
-      color: purple
+      color: pink
 
   # wether the author box should be displayed
   show_author: true
@@ -45,8 +45,8 @@ dash:
   rtl: false
 
   # Replaces the default avatar provider (gravatar)
-  #avatar_source: github
-  #github_username: bitbrain
+  avatar_source: github
+  github_username: viniciuspereiras
   #avatar_source: local
   #avatar_path: /assets/avatar.png
 
