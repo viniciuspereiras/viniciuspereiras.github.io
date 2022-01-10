@@ -1,0 +1,267 @@
+---
+layout: post
+title:  "UHCCTF (Classificatória) - Storm"
+tags: pt-br ctf write-up
+---
+Essa máquina foi feita pelo Kadu para a classificatória do UHCv34.
+
+# Recon
+
+A página inicial dessa maquina é apenas uma foto de uma tempestade gigante, e podemos comprovar isso vendo o source code...
+
+![/assets/storm/Untitled.png](/assets/storm/Untitled.png)
+
+![/assets/storm/Untitled%201.png](/assets/storm/Untitled%201.png)
+
+Como de costume em todos os recons, vamos fazer um fuzzing em busca de diretórios e arquivos, utilizarei o ffuf com as wordlists "common.txt" e "quickhits.txt".
+
+common.txt:
+
+![/assets/storm/Untitled%202.png](/assets/storm/Untitled%202.png)
+
+Encontramos duas coisas interessantes, info.php e config.php:
+
+- info.php:
+parece que tem um phpinfo() rodando ai..., interessante para pegarmos algumas informações de versão de serviços e software, além de informações sobre a configuração do servidor. (Pesquisei por exploits para os serviços porém nada foi encontrado 😢)
+
+![/assets/storm/Untitled%203.png](/assets/storm/Untitled%203.png)
+
+- config.php
+
+Ops! (Status code 200, muito estranho, rs)
+
+![/assets/storm/Untitled%204.png](/assets/storm/Untitled%204.png)
+
+quickhits.txt:
+
+![/assets/storm/Untitled%205.png](/assets/storm/Untitled%205.png)
+
+Opa! No meio de vários falsos positivos encontramos um arquivo chamado ".config.php.swp", parece ser um arquivo de swap do vim (gerado quando se abre um arquivo no vim, no caso o que foi aberto foi o config.php). 
+
+![/assets/storm/Untitled%206.png](/assets/storm/Untitled%206.png)
+
+Como podemos ver é o código php do arquivo "config.php".
+
+Observando com o Ctrl+U (View-Source) podemos ver a primeira flag!
+
+![/assets/storm/Untitled%207.png](/assets/storm/Untitled%207.png)
+
+Parece que teremos de fazer um code review nesse código e entender aquele Access Denided que recebemos no config.php...
+
+Para melhorar nossa visualização vamos tentar recuperar esse arquivo usando o próprio vim:
+
+```bash
+wget https://storm.uhclabs.com/.config.php.swp #download the file
+vim -r .config.php.swp #recover the file
+```
+
+Agora apenas dei enter.
+
+![/assets/storm/Untitled%208.png](/assets/storm/Untitled%208.png)
+
+Lets debug friends!
+
+![/assets/storm/Untitled%209.png](/assets/storm/Untitled%209.png)
+
+(Essa parte do write-up vai exigir o básico de php, tentarei explicar da melhor forma, mas se você não entende muito de php, um aviso, você vai ficar meio doido)
+
+## Code Review
+
+Para entender eu recomendo fortemente que você reproduza o ambiente na sua máquina!
+
+Aqui está o motivo de recebermos acesso negado!
+
+![/assets/storm/Untitled%2010.png](/assets/storm/Untitled%2010.png)
+
+Eu reproduzi o ambiente localmente, ai vai meu código comentado para entendermos:
+
+(Amigos brasileiros, desculpa por estar em inglês, é para o pessoal poder entender o código)
+
+```php
+<?php
+//my reproduce script
+Class UHCProtocol{                   //declare a new class 
+    public $data;
+    public function __wakeup(){      //exploitable function by insecure deserealization**
+    $this->add();
+    }
+    public function add(){
+        return call_user_func($this->data, $_SERVER['QUERY_STRING']); //call a function with value of $data and use arguments with value in query string of the http request
+    }
+
+if($_SERVER['REQUEST_METHOD'] == "PUT"){  //verify type of the request, in case we have to use PUT
+
+$raw = file_get_contents("php://input"); //put on $raw all contents of request body (php://input is the request body)
+
+    if(strpos($raw, "::") !== false){ //verify if have "::" on $raw content and if yes return true
+        $call = explode("::", $raw); //separte in a array $raw by "::" and put this on array named $call
+        $badfuncs = ['system', 'aaaa'];  //declare a array with denided functions
+
+        if(in_array($call[0], $badfuncs)){ //verify if in first part of $raw, before :: ($call[0]) have any of denides functions
+            die("Denied Func!"); //if yes, die() with a message "Denied Func!"
+        }
+        if(strpos($call[1], "|") !== false){ //verify if in second part of $raw, after :: ($call[1]) have a "|"
+            $data = explode("|", $call[1]); //if yes separate $call[1] by | and put this on a array named $data
+            call_user_func_array($call[0], $data); //call a function with $call[0] value and $data value in arguments
+        }else{ //if not...
+            call_user_func($call[0], $call[1]); //call a function with $call[0] value and $call[1] value in arguments
+        }
+    }
+}
+?>
+```
+
+Basicamente o que temos que fazer para começar a testar é mandar um request PUT e nos valores do body passar nossa payload contendo "::". Dando uma lida sobre como usar a função call_user_func do php podemos perceber que o primeiro argumento é o nome da função que queremos rodar, e o segundo argumento são os valores a serem passados para essa função, exemplo:
+
+```php
+call_user_func("print_r", "hello"); //will print "hello"
+```
+
+Como podemos observar no nosso código comentado, se seguirmos as validações do if, o código deverá executar uma função que colocarmos antes do "::" e os argumentos serão os valores que colocarmos depois do "::".
+
+```
+print_r::hello
+```
+
+Vamos abrir o burp e enviar esse PUT contendo nossa payload.
+
+![/assets/storm/Untitled%2011.png](/assets/storm/Untitled%2011.png)
+
+Recebemos Access Denided!, isso deve ser pelo fato de estarmos acessando o config.php, vamos então pensar, para que um script "config.php' é usado? para setar todas as variáveis e classes de configuração do site, portando outras páginas do site dão um include nele...
+
+Vamos mandar o request para index.php, ja que provavelmente ele inclui o config.php no código...
+
+![/assets/storm/Untitled%2012.png](/assets/storm/Untitled%2012.png)
+
+Deu certo, bom agora vamos ver o que podemos fazer com isso, usar funções para ler arquivos (LFI), rodar funções de sistema? Não pois elas estão sendo checadas na nossa payload, então o que vamos fazer?
+
+Lembram do comentário na função wakeup da classe?
+
+O que vamos ter que fazer é uma desseralização insegura!
+
+# Exploitation 
+## RCE
+
+[Deserialization](https://book.hacktricks.xyz/pentesting-web/deserialization)
+
+Recomendo quem não souber do que se trata dar uma pesquisada em alguns artigos.
+
+Aqui vai o código da classe vulnerável:
+
+```php
+Class UHCProtocol{
+    public $data;
+    public function __wakeup(){
+    $this->add();
+    }
+    public function add(){
+        return call_user_func($this->data, $_SERVER['QUERY_STRING']);
+    }
+}
+```
+
+Observem a função wakeup, ela é uma função que recebe o nome de função mágica. Toda vez que no php um objeto é desserealizado essa função é chamada.
+
+Nessa classe a função wakeup está executando a função add() que por sua vez tem um call_user_func que recebe os valores $data e os valores contidos na query do request (http://website.com/index.php?this-is=a-query).
+
+O valor de $data vai ser o nome da função que o call_user_func vai executar e os calores da query serão os argumentos...
+
+Ok, temos o código vulnerável a desserealização, mas onde tem um objeto para ser desserealizado?
+
+Simples! Se lembram do nosso "poder" de executar funções com o nosso body malicioso no request PUT? Vamos um "unserealize" com os argumentos sendo um objeto modificado por nós.
+
+Esse objeto modificado terá que ter o nome da função que iremos rodar com o valor de $data, portanto vamos apenas escrever um script para serializar uma classe modificada.
+
+```php
+<?php
+Class UHCProtocol{
+    public $data = "print_r";
+    public function __wakeup(){
+    $this->add();
+    }
+    public function add(){
+        return call_user_func($this->data, $_SERVER['QUERY_STRING']);
+    }
+}
+$object = new UHCProtocol();
+echo serialize($object);
+?>
+```
+
+![/assets/storm/Untitled%2013.png](/assets/storm/Untitled%2013.png)
+
+Agora vamos desserealizar isso e passar os argumentos na query da URL:
+
+![/assets/storm/Untitled%2014.png](/assets/storm/Untitled%2014.png)
+
+Conseguimos! Com isso não precisamos nos importar com as funções proibidas do config.php, já que nosso $data não passa por nenhum tipo de validação.
+
+Porém vamos ver no info.php se tem alguma função que não tenha sido desabilitada que possa permitir um RCE.
+
+![/assets/storm/Untitled%2015.png](/assets/storm/Untitled%2015.png)
+
+Dando uma olhada, parece que a função "exec" está liberada, vamos testar, porém é importante lembrar que a função exec não possui output, logo vamos rodar um "sleep" para ver se o código foi executado.
+
+![/assets/storm/Untitled%2016.png](/assets/storm/Untitled%2016.png)
+
+Parece que deu certo, utilizei ${IFS} pois é um bypass para dar um espaço no linux. 
+
+Temos RCE, agora vamos pegar uma reverse shell!
+
+# Pós-exploitation 
+## Root
+
+![/assets/storm/Untitled%2017.png](/assets/storm/Untitled%2017.png)
+
+Habemos shell!
+
+```
+Full tty shell
+in your shell~ python3 -c 'import pty; pty.spawn("/bin/bash")'
+CTRL + Z
+in your terminal~ stty raw -echo; fg
+ENTER
+in your shell~ export TERM=xterm
+```
+
+E dando uma olhada no "/", habemos flag!
+
+![/assets/storm/Untitled%2018.png](/assets/storm/Untitled%2018.png)
+
+Fazendo um recon normal de pós exploitation, consegui achar algumas coisas interessantes, a mais especial, um script com permissão de SUID chamado "storm" no / :
+
+![/assets/storm/Untitled%2019.png](/assets/storm/Untitled%2019.png)
+
+Rodando ele parece que ele tem alguma palavra certa para se usar, como uma senha:
+
+![/assets/storm/Untitled%2020.png](/assets/storm/Untitled%2020.png)
+
+Vamos usar o Ghidra para analizar o programa baixando para a nossa máquina e fazendo uma engenharia reversa para ver como ele está funcionando:
+
+![/assets/storm/Untitled%2021.png](/assets/storm/Untitled%2021.png)
+
+Esse é o código decompilado pelo ghidra, o programa recebe um valor digitado pelo usuário pelo scanf e compara esse valor a uma string com o strcmp(), e então dependendo do que retornar dessa comparação ele vai executar um sleep e uma função chamada shell ou vai executar um print dizendo "Invalid cloud name".
+
+O que tem na função shell?
+
+![/assets/storm/Untitled%2022.png](/assets/storm/Untitled%2022.png)
+
+Lembram que o programa tinha o capability de SUID? Nessa função shell ele seta o UID para 0 (root) e chama uma shell, isso significa que se a nossa comparação retornar true (se digitarmos a palavra certa), o programa vai nos dar uma shell de root. 
+
+Vamos dar uma olhada nessa comparação novamente.
+
+```c
+iVar1 = strcmp("__libc_csu_fini",acStack200); 
+```
+
+Perceberam? É uma string, o prgrama verifica se no input do usuário existe "__libc_csu_fini", logo, temos a "senha"! Vamos usar.
+
+![/assets/storm/Untitled%2023.png](/assets/storm/Untitled%2023.png)
+
+Depois de um tempo (por conta do sleep), o programa nos da uma shell de root!
+
+Na home do root encontrei a flag!
+
+![/assets/storm/Untitled%2024.png](/assets/storm/Untitled%2024.png)
+
+É isso, obrigado por ler até aqui, e parabéns kadu pela máquina!
