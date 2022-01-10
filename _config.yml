@@ -2,7 +2,7 @@ title: big0us
 author: Vinicius Pereira
 email: vini@cius.xyz
 description: > # this means to ignore newlines until "show_exerpts:"
-  Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF, I study programming (I'm focusing on python at the moment) and in my spare time I dedicate myself to creating some stuff, participating in bug bounty programs and playing some CTFs.
+  Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
 show_excerpts: false # set to true to show excerpts on the homepage
 
 
