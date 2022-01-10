@@ -48,10 +48,10 @@ dash:
   rtl: false
 
   # Replaces the default avatar provider (gravatar)
-  avatar_source: github
-  github_username: viniciuspereiras
-  #avatar_source: local
-  #avatar_path: /assets/avatar.png
+  # avatar_source: github
+  # github_username: viniciuspereiras
+  avatar_source: local
+  avatar_path: /assets/avatar.gif
 
 # Build settings
 theme: jekyll-dash
