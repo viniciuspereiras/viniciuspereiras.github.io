@@ -3,7 +3,14 @@ layout: post
 title:  "CTF LatinoWare 2021 - Planilhas Baby"
 tags: pt-br ctf write-up latinoware
 ---
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-72MZ89K41P');
+</script>
 Este challenge fez parte do CTF da [Latinoware 2021](https://latinoware.eflag.io/) e o criador dele é o @manoelt.
 
 # Start

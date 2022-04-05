@@ -3,7 +3,14 @@ layout: post
 title:  "UHCCTF (Classificatória) - Biscuit (Official Write-Up) pt-br"
 tags: pt-br ctf write-up
 ---
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-72MZ89K41P');
+</script>
 Ola sou o Vinicius (big0us), esse é um write-up de uma maquina que foi o challenge de uma das etapas classificatórias do UHC.
 
 Escreverei meio rápido então peço desculpas se algo estiver um pouco ruim.
