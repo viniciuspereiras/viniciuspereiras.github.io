@@ -1,16 +1,9 @@
 ---
-layout: post
+layout: article
 title:  "UHCCTF (Classificatória) - Biscuit (Official Write-Up) - eng"
 tags: eng ctf write-up
 ---
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-72MZ89K41P');
-</script>
 
 Hello, I'm Vinicius (big0us), this is a write-up of a machine that was the challenge for one of UHC's qualifiers. (translate to english by [0day](https://twitter.com/0dayctf))
 Happy reading :)

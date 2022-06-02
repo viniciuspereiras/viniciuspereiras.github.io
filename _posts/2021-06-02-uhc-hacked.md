@@ -1,16 +1,9 @@
 ---
-layout: post
+layout: article
 title:  "UHCCTF (Classificatória) - Hacked (Official Write-Up)"
 tags: pt-br ctf write-up
 ---
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-72MZ89K41P');
-</script>
 Essa máquina foi feita por mim com ajuda dos meus amigos Luska e Kadu para o UHC. Os arquivos dela e o Dockerfile estarão no meu GitHub.
 
 # Recon

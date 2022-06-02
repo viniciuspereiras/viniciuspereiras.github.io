@@ -1,64 +1,225 @@
-title: big0us
-author: Vinicius Pereira
-email: vini@cius.xyz
-description: > # this means to ignore newlines until "show_exerpts:"
-  Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
-show_excerpts: false # set to true to show excerpts on the homepage
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+#
+# ,--------.      ,--.   ,--. ,--.
+# '--.  .--',---.  \  `.'  /,-'  '-.
+#    |  |  | .-. :  .'    \ '-.  .-'
+#    |  |  \   --. /  .'.  \  |  |
+#    `--'   `----''--'   '--' `--'
 
 
 include: [CNAME]
 
+## => Site Settings
+##############################
+text_skin: dark # "default" (default), "dark", "forest", "ocean", "chocolate", "orange"
+highlight_theme: tomorrow-night # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
+url     :  https://www.bigous.me # the base hostname & protocol for your site e.g. https://www.someone.com
+baseurl :  # does not include hostname
+title   : big0us
+description: > # this means to ignore newlines until "Language & timezone"
+   Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
+
+
+## => Language and Timezone
+##############################
+lang: en # the language of your site, default as "en"
+timezone: America/Sao_Paulo	# see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for the available values
+
+
+## => Author and Social
+##############################
+author:
+  type      : person # "person" (default), "organization"
+  name      : Vinicius Pereira
+  url       : https://www.bigous.me
+  avatar    : /assets/favicon.png
+  bio       :  Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
+  email     :  vini@cius.xyz
+  facebook  : # "user_name" the last part of your profile url, e.g. https://www.facebook.com/user_name
+  twitter   : big0x75 # "user_name" the last part of your profile url, e.g. https://twitter.com/user_name
+  weibo     : # "user_id"   the last part of your profile url, e.g. https://www.weibo.com/user_id/profile?...
+  googleplus: # "user_id"   the last part of your profile url, e.g. https://plus.google.com/u/0/user_id
+  telegram  : # "user_name" the last part of your profile url, e.g. https://t.me/user_name
+  medium    : # "user_name" the last part of your profile url, e.g. https://medium.com/user_name
+  zhihu     : # "user_name" the last part of your profile url, e.g. https://www.zhihu.com/people/user_name
+  douban    : # "user_name" the last part of your profile url, e.g. https://www.douban.com/people/user_name
+  linkedin  : viniciuspereiras # "user_name" the last part of your profile url, e.g. https://www.linkedin.com/in/user_name
+  github    : viniciuspereiras # "user_name" the last part of your profile url, e.g. https://github.com/user_name
+  npm       : # "user_name" the last part of your profile url, e.g. https://www.npmjs.com/~user_name
+
+
+## => GitHub Repository (if the site is hosted by GitHub)
+##############################
+repository: viniciuspereiras/viniciuspereiras.github.io
+repository_tree: master
+
+
+## => Paths
+##############################
+paths:
+  root    : # title link url, "/" (default)
+  home    : # home layout url, "/" (default)
+  archive : # "/archive.html" (default)
+  rss     : # "/feed.xml" (default)
+
+
+## => Post
+##############################
+## excerpt
+excerpt_separator: <!--more-->
+
+## license
+license:  # "CC-BY-4.0", "CC-BY-SA-4.0", "CC-BY-NC-4.0", "CC-BY-ND-4.0"
+
+## TOC
+toc:
+  selectors: # "h1,h2,h3" (default)
+
+
+## => Markdown Enhancements
+##############################
+## Mathjax
+mathjax: # false (default), true
+mathjax_autoNumber: # false (default), true
+
+## Mermaid
+mermaid: # false (default), true
+
+## Chart
+chart: # false (default), true
+
+
+## => Paginate
+##############################
 paginate: 5
-paginate_path: "/blog/page:num/"
+paginate_path: /page:num # don't change this unless for special need
 
-tag_permalink_style: pretty
-tag_page_layout: tag_page
-tag_page_dir: tag
 
-# jekyll-dash date format
-# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
-dash:
-  # the way how dates should be displayed
-  date_format: "%b %-d, %Y"
+## => Sources
+##############################
+sources: # bootcdn (default), unpkg
 
-  # (optional) discqus comment configuration
-  # disqus:
-  #   shortname: bigous
 
-  # generate social links in footer
-  # supported colors: green, red, orange, blue, cyan, pink, teal, yellow, indigo, purple
-  social_links:
-    - url: https://twitter.com/big0x75
-      icon: twitter-square
-      color: cyan
-    - url: https://linkedin.com/in/viniciuspereiras
-      icon: linkedin
-      color: blue
-    - url: https://github.com/viniciuspereiras
-      icon: github-square
-      color: pink
+## => Sharing
+##############################
+sharing:
+  provider: false # false (default), "addtoany", "addthis", "custom"
 
-  # wether the author box should be displayed
-  show_author: true
+  ## AddThis
+  addthis:
+    id: # AddThis pubid, e.g. ra-5xxxxxxxxxxx
 
-  # the animation speed of the scroll-in effect
-  animation_speed: 50
 
-  # wether to enable Right-to-Left support or not
-  rtl: false
+## => Comments
+##############################
+comments:
+  provider: false # false (default), "disqus", "gitalk", "valine", "custom"
 
-  # Replaces the default avatar provider (gravatar)
-  # avatar_source: github
-  # github_username: viniciuspereiras
-  avatar_source: local
-  avatar_path: /assets/avatar.gif
+  ## Disqus
+  disqus:
+    shortname: # the Disqus shortname for the site
 
-# Build settings
-theme: jekyll-dash
+  ## Gitalk
+  # please refer to https://github.com/gitalk/gitalk for more info.
+  gitalk:
+    clientID    : # GitHub Application Client ID
+    clientSecret: # GitHub Application Client Secret
+    repository  : # GitHub repo
+    owner       : # GitHub repo owner
+    admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
+      # - your GitHub Id
 
+  ## Valine
+  # please refer to https://valine.js.org/en/ for more info.
+  valine:
+    app_id      : # LeanCloud App id
+    app_key     : # LeanCloud App key
+    placeholder : # Prompt information
+    visitor     : # false (default)
+    meta        : # "[nick, mail, link]" (default) nickname, E-mail, Personal-site
+
+
+## => Pageview
+##############################
+pageview:
+  provider: false # false (default), "leancloud", "custom"
+
+  ## Leancloud
+  leancloud:
+    app_id    : # LeanCloud App id
+    app_key   : # LeanCloud App key
+    app_class : # LeanCloud App class
+
+
+## => Search
+##############################
+search:
+  provider: default # "default" (default), false, "google", "custom"
+
+  ## Google Custom Search Engine
+  google:
+    custom_search_engine_id: # Google Custom Search Engine ID
+
+
+## => Analytics
+##############################
+analytics:
+  provider: google # false (default), "google", "custom"
+
+  ## Google Analytics
+  google:
+    tracking_id : G-72MZ89K41P # Google Analytics id for the site
+    anonymize_ip: true # Anonymize IP tracking for Analytics
+
+
+## => Build
+##############################
+markdown    : kramdown
+highlighter : rouge
+permalink   : date
+
+exclude:
+  - CHANGELOG.md
+  - HOW_TO_RELEASE.md
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README-*.md
+  - README.md
+  - gulpfile.js
+  - jekyll-text-theme.gemspec
+  - package-lock.json
+  - package.json
+  - /docs
+  - /node_modules
+  - /screenshots
+  - /test
+  - /vendor
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: article
+      sharing: true
+      license: true
+      aside:
+        toc: true
+      show_edit_on_github: true
+      show_subscribe: true
+      pageview: true
+
+
+## => Plugins
+##############################
 plugins:
- - jekyll-feed
- - jekyll-seo-tag
- - jekyll-paginate
- - liquid-md5
- - jekyll/tagging
+  - jekyll-feed
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jemoji

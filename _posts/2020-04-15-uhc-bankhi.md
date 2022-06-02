@@ -1,17 +1,10 @@
 ---
-layout: post
+layout: article
 title:  "UHCCTF (Classificatória) - BankHi (Official Write-Up)"
 tags: pt-br ctf write-up
 ---
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-72MZ89K41P');
-</script>
 
 Essa foi a primeira máquina que eu criei e ela é muito especial para mim, espero que gostem 🙂
 

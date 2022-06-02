@@ -1,16 +1,9 @@
 ---
-layout: post
+layout: article
 title:  "UHCCTF (Classificatória) - Chuvinha"
 tags: pt-br ctf write-up
 ---
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-72MZ89K41P');
-</script>
 
 # Recon
 
