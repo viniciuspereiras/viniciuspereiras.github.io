@@ -169,13 +169,7 @@ search:
 ## => Analytics
 ##############################
 analytics:
-  provider: google # false (default), "google", "custom"
-
-  ## Google Analytics
-  google:
-    tracking_id : G-72MZ89K41P # Google Analytics id for the site
-    anonymize_ip: true # Anonymize IP tracking for Analytics
-
+  provider: false # false (default), "google", "custom"
 
 ## => Build
 ##############################
