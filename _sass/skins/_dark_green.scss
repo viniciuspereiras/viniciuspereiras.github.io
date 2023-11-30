@@ -1,0 +1,73 @@
+///
+// Skin: Dark Green
+// Author: vinicius
+///
+
+// main colors
+$main-color-1:     #92f734e9; // highlight color
+$text-color-1:     #708101; // nao sei
+
+$main-color-2:     #61acc0; // mouse over and selected
+$text-color-2:     #fff200; // nao sei
+
+$main-color-3:     #3F4E4F; //nav bar
+$text-color-3:     #c7c7c7; // nav bar text
+
+$main-color-theme-light: rgba(#000, .8);
+$main-color-theme-dark:  rgba(#fff, .8);
+
+// page background
+$background-color: #2C3639;
+
+// text colors
+$text-color-theme-light-d: #000;
+$text-color-theme-light:   #222;
+$text-color-theme-light-l: #888;
+
+$text-color-theme-dark-d:  rgba(#fff, .8);
+$text-color-theme-dark:    #DCD7C9; // text collor
+$text-color-theme-dark-l:  rgba(#fff, .5);
+
+$text-color-d:     $text-color-theme-dark-d;
+$text-color:       $text-color-theme-dark;
+$text-color-l:     $text-color-theme-dark-l;
+
+$text-background-color: rgba(#fff, .05);
+
+// header and footer colors
+$header-text-color: $text-color-3;
+$header-background: $main-color-3;
+
+$footer-text-color: $text-color-3;
+$footer-background: $main-color-3;
+
+// border and shadow colors
+$border-color:     mix(#fff, $background-color, 20%);
+$border-color-l:   mix(#fff, $background-color, 10%);
+$decorate-color:   rgba(#fff, .1);
+$mask-color:       rgba(#000, .9);
+$select-color:     rgba($main-color-1, .5);
+
+// function colors
+$green: #9edba0;    // Tom de verde pastel
+$blue: #8fc9e0;     // Tom de azul pastel
+$yellow: #e2b78e;   // Tom de amarelo pastel
+$red: #e7a8ab;      // Tom de vermelho pastel
+$text-color-function: rgba(#fff, .8);
+
+// logo colors
+$mail-color:       #0072c5;
+$facebook-color:   #4267b2;
+$twitter-color:    #1da1f2;
+$weibo-color:      #e6162d;
+$google-plus-color:#ea4335;
+$telegram-color:   #32afed;
+$medium-color:     #000;
+$zhihu-color:      #0084ff;
+$douban-color:     #42bd56;
+$linkedin-color:   #1074af;
+$github-color:     #000;
+$npm-color:        #fff;
+
+// highlight colors
+@import "skins/highlight/tomorrow-night";

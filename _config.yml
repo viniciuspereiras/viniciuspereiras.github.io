@@ -16,8 +16,8 @@ include: [CNAME]
 
 ## => Site Settings
 ##############################
-text_skin: dark # "default" (default), "dark", "forest", "ocean", "chocolate", "orange"
-highlight_theme: tomorrow-night-eighties # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
+text_skin: dark_green # "default" (default), "dark", "forest", "ocean", "chocolate", "orange"
+highlight_theme: tomorrow-night # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
 url     :  https://www.bigous.me # the base hostname & protocol for your site e.g. https://www.someone.com
 baseurl :  # does not include hostname
 title   : big0us
@@ -37,7 +37,7 @@ author:
   type      : person # "person" (default), "organization"
   name      : Vinicius Pereira
   url       : https://www.bigous.me
-  avatar    : /assets/favicon.png
+  avatar    : /assets/favicon.ico
   bio       :  Hey, my name is Vinicius, aka big0us :), I work with the red team at PROOF. In my free time I like to create some stuff, participate in bug bounty programs and play some CTFs.
   email     :  vini@cius.xyz
   facebook  : # "user_name" the last part of your profile url, e.g. https://www.facebook.com/user_name
@@ -205,7 +205,7 @@ defaults:
       license: true
       aside:
         toc: true
-      show_edit_on_github: true
+      show_edit_on_github: false
       show_subscribe: true
       pageview: true
 

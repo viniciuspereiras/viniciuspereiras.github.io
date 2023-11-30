@@ -1,10 +1,10 @@
 ---
 layout: article
 title:  "UHCCTF (Classificatória) - BankHi (Official Write-Up)"
-tags: pt-br ctf write-up
+tags: pt-br ctf
 ---
 
-
+ 
 
 Essa foi a primeira máquina que eu criei e ela é muito especial para mim, espero que gostem 🙂
 

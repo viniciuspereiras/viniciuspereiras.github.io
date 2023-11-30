@@ -30,6 +30,10 @@
     {%- include snippets/prepend-baseurl.html path=_article.url -%}
     {%- assign _article_url = __return -%}
 
+    {%- if _article.show_on_nav==false -%}
+    {% continue %}
+    {%- endif -%}
+
     {%- if _article.cover -%}
       {%- include snippets/get-nav-url.html path=_article.cover -%}
       {%- assign _article_cover = __return -%}

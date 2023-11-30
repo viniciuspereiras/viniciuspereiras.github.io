@@ -1,9 +1,9 @@
 ---
 layout: article
 title:  "UHCCTF (Classificatória) - CuteCat 🐈 (Official Write-Up)"
-tags: pt-br ctf write-up
+tags: pt-br ctf
 ---
-
+ 
 
 Esse challenge foi feito para ser fofo e maluco ao mesmo tempo...
 Meu primeiro challenge MISC.

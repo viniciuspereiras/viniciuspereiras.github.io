@@ -3,6 +3,7 @@ layout: article
 title:  "UHCCTF (Classificatória) - Hacked (Official Write-Up)"
 tags: pt-br ctf write-up
 ---
+ 
 
 Essa máquina foi feita por mim com ajuda dos meus amigos Luska e Kadu para o UHC. Os arquivos dela e o Dockerfile estarão no meu GitHub.
 

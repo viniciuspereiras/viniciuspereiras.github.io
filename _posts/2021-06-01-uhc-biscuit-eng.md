@@ -1,9 +1,9 @@
 ---
 layout: article
 title:  "UHCCTF (Classificatória) - Biscuit (Official Write-Up) - eng"
-tags: eng ctf write-up
+tags: eng ctf
 ---
-
+ 
 
 Hello, I'm Vinicius (big0us), this is a write-up of a machine that was the challenge for one of UHC's qualifiers. (translate to english by [0day](https://twitter.com/0dayctf))
 Happy reading :)

@@ -1,8 +1,9 @@
 ---
 layout: article
 title:  "CTF LatinoWare 2021 - Planilhas Baby"
-tags: pt-br ctf write-up latinoware
+tags: pt-br ctf
 ---
+ 
 
 Este challenge fez parte do CTF da [Latinoware 2021](https://latinoware.eflag.io/) e o criador dele é o @manoelt.
 
