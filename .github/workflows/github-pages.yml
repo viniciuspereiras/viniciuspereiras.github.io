@@ -22,7 +22,6 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
     steps:
       - name: Install Hugo
         run: |
