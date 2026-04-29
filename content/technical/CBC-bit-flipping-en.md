@@ -1,7 +1,7 @@
 ---
 title: "A deep look into Cipher Block Chaining (CBC) Algorithm Bit Flipping"
 date: 2023-11-17
-aliases: ["/2023/11/17/CBC-bit-flipping-en.html"]
+aliases: ["/2023/11/17/CBC-bit-flipping-en.html", "/2023/11/17/CBC-bit-flipping.html"] 
 math: true
 ---
 
