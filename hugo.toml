@@ -1,0 +1,48 @@
+baseURL = "https://www.bigous.me/"
+languageCode = "en-us"
+title = "big0us"
+
+[params]
+  author = "Vinicius Pereira"
+  role = "Offensive Security Engineer @ Nubank"
+  bio = "I like breaking things."
+  description = "Offensive Security Engineer @ Nubank. I like breaking things."
+  email = "vini@cius.xyz"
+  favicon = "/favicon.ico"
+
+[params.social]
+  github = "https://github.com/viniciuspereiras"
+  twitter = "https://twitter.com/big0x75"
+  linkedin = "https://linkedin.com/in/viniciuspereiras"
+
+[markup]
+  [markup.highlight]
+    style = "monokai"
+    guessSyntax = true
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [["$$", "$$"]]
+          inline = [["$", "$"]]
+
+[menu]
+  [[menu.main]]
+    name = "articles"
+    url = "/technical/"
+    weight = 1
+  [[menu.main]]
+    name = "notes"
+    url = "/blog/"
+    weight = 2
+
+[outputs]
+  home = ["HTML"]
+
+[taxonomies]
+
+[pagination]
+  pagerSize = 10

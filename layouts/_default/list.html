@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="list-header">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<p>{{ . }}</p>{{ end }}
+</div>
+<ul class="article-list">
+  {{ range .Pages }}
+  <li>
+    <a href="{{ .Permalink }}">
+      <span class="title">{{ .Title }}</span>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+    </a>
+  </li>
+  {{ end }}
+</ul>
+{{ template "_internal/pagination.html" . }}
+{{ end }}
